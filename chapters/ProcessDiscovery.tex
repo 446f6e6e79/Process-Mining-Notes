@@ -1,0 +1,87 @@
+\section{Process Discovery}
+Process discovery is a key aspect of process mining that focuses on extracting process models from event logs.
+\subsection{Event Logs}
+An event log is a collection of \textit{cases}. Each case represents as a sequence of \textit{events} that have occurred during the execution of a process.
+Each event typically contains attributes such as:
+\begin{itemize}
+    \item Case ID: A unique identifier for the case.
+    \item Activity: The name of the activity that was performed.
+    \item Timestamp: The time at which the event occurred.
+    \item Additional attributes: Such as resource, cost, etc.
+\end{itemize}
+\subsection{Process Mining algorithms}
+Several algorithms have been developed for process discovery. In this section, we will discuss some of the most prominent ones.
+They can be cathegorized into:
+\begin{itemize}
+    \item \textbf{Direct algorithmic approaches}: These algorithms directly construct a process model from the event log without intermediate steps. Examples include the Alpha Miner;
+    \item \textbf{Two-phase approaches}: these algorithms first extract a representation of the process behavior from the event log, and then use this representation to construct a process model. Examples include the Heuristic Miner;
+    \item \textbf{Divide and conquer approaches}: these algorithms divide the event log into smaller segments, discover process models for each segment, and then combine these models into a single process model. Examples include the Inductive Miner.
+    \item \textbf{Computational intelligence approaches}: these algorithms use techniques from artificial intelligence, such as genetic algorithms or neural networks, to discover process models from event logs. Examples include Genetic Process Mining.
+\end{itemize}
+
+The Alpha Miner is one of the earliest and most well-known algorithms for process discovery. It constructs a Petri net from an event log by identifying different types of relations between activities, such as:
+\begin{itemize}
+    \item \textbf{Direct succession} (directly follows): If activity A is directly followed by activity B in the event log, we denote this as A $>_L$ B.
+    \item \textbf{Causality}: If activity A is directly followed by activity B, but B is never directly followed by A, we denote this as A $\to_L$ B. Formally, A $\to_L$ B if A $>_L$ B and not B $>_L$ A.
+    \item \textbf{Parallelism}: If activities A and B can occur independently and in parallel, we denote this as A $\parallel_L$ B.
+    \item \textbf{Choice}: If an event log shows that either activity A or activity B can occur next, we denote this as A $\text{\#}_L$ B.
+\end{itemize}
+To learn this relations, the Alpha Miner first constructs a footprint matrix.
+\paragraph{Footprint Matrix:}
+The footprint matrix is a square matrix where both the rows and columns represent the activities in the event log. The entries in the matrix indicate the relations between activities based on their occurrences in the event log.
+As an example, consider the following footprint matrix of the log containing activities A, B, C, D and E:
+\[L_1 = \left[ \langle a,b,c,d \rangle^2, \langle a,c,b,d \rangle^2, \langle a,e,d \rangle^2,  \right]\]
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|ccccc}
+        & A & B & C & D & E \\
+        \hline
+        A & $\#$ & $\rightarrow$ & $\rightarrow$ & $\#$ & $\rightarrow$ \\
+        B &  & $\#$ & $||$ & $\rightarrow$ & $\#$ \\
+        C &  &  & $\#$ & $\rightarrow$ & $\#$ \\
+        D &  &  &  & $\#$ & $\leftarrow$ \\
+        E &  &  &  &  & $\#$ \\
+    \end{tabular}
+    \caption{Example of a Footprint Matrix}
+\end{table}
+Only the upper triangular part of the matrix is filled, as the relations are symmetric.
+From the footprint matrix, the Alpha Miner identifies \textit{causal relations} and constructs places in the Petri net accordingly.
+\paragraph{Steps of the Alpha Miner Algorithm:}
+\begin{enumerate}
+    \item Identify all unique activities in the event log $T_L$;
+    \item Build the set of start activities $T_I$ and end activities $T_O$. They should contain all activities that appear as the first and last activity in any trace of the log, respectively;
+    \item Compute pairs of activity sets $(A,B)$ such that:
+    \begin{itemize}
+        \item For every activity $a \in A$ and $b \in B$, $a \to_L b$;
+        \item For every pair of activities $a_1, a_2 \in A$, $a_1 \#_L a_2$;
+        \item For every pair of activities $b_1, b_2 \in B$, $b_1 \#_L b_2$.
+    \end{itemize}
+    In smaller terms, all activities in set A are in causal relation with all activities in set B, and there is no direct succession between any pair of activities within the same set.
+    \item Try to maximize the pairs found in the previous step, i.e., if $(\{A\},\{B\})$ is found and there exists $(\{A\}, \{C\})$, then we can merge them into $(\{A\}, \{B,C\})$ iff for every $b \in B$ and $c \in C$, $b \#_L c$;
+    If this is possible, we replace the two pairs with the merged one;
+    \item For each maximal set found, create a place in the Petri net. Also, create a source place connected to all start activities in $T_I$ and a sink place connected from all end activities in $T_O$.
+    \item For each pair $(A,B)$, connect all activities in A to the place created for the pair, and connect that place to all activities in B.
+\end{enumerate}
+
+\subsubsection{Heuristic Miner}
+The Heuristic Miner is an extension of the Alpha Miner that aims to address some of its limitations, particularly in dealing with noise and infrequent behavior in event logs.
+Since it is a two-phase approach, it first constructs a \textit{dependency graph} from the event log, which captures the relationships between activities based on their frequencies.
+Based on this graph, it then constructs a process model, typically represented as a Petri net or a C-net.
+\paragraph{Dependency Graph:}
+The dependency graph is a directed graph where nodes represent activities, and edges represent the dependencies between them.
+Each edge is assigned a \textbf{weight} and a \textbf{frequency}.
+\paragraph{Compute frequency matrix:}
+To compute the dependency measures, the Heuristic Miner analyzes the event log and extracts the frequencies of direct successions between activities.
+This information are kept in a \textit{direct succession matrix}, similar to the footprint matrix used in the Alpha Miner.
+This matrix records how many times each activity is directly followed by another activity in the event log.
+\paragraph{Compute dependency measures:}
+Using the direct succession matrix, the Heuristic Miner computes dependency measures for each pair of activities $(a,b)$ using the formula:
+\[
+\begin{cases}
+    |a \implies_L b| = \frac{|a \to_L b| - |b \to_L a|}{|a \to_L b| + |b \to_L a| + 1} \\
+    |a \implies_L a| = \frac{|a \to_L a|}{|a \to_L a| + 1} \\
+\end{cases}
+\]
+Where $|a \to_L b|$ is the frequency of direct succession from activity a to activity b in the event log.
+The dependency measure can correctly identify parallelism, causality, and choice between activities based on their frequencies.
+\paragraph{Dependency Matrix:}
