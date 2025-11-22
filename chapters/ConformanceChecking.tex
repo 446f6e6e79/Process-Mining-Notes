@@ -1,0 +1,53 @@
+\section{Conformance Checking}
+Conformance check tries to verify if the behavior of a process model is in line with the behavior recorded in an event log.
+It identifies execution traces in the event log that deviate from the process model and vice versa.
+There are several techniques to perform conformance checking.
+\paragraph{Usage of Conformance Checking:}
+Conformance checking can be used for several purposes:
+\begin{itemize}
+    \item \textbf{Discriminate} between fitting and non-fitting traces;
+    \item \textbf{Locate Deviations} within traces;
+    \item \textbf{Compare Models:} different process models can be compared based on their conformance with an event log;
+    \item \textbf{Diagnonistics:} identify bottlenecks and inefficiencies in the process by analyzing deviations;
+    \item \textbf{Compare discovered models:} evaluate the quality of process discovery algorithms by measuring how well the discovered model fits the event log;
+\end{itemize}
+
+\subsection{Replay-based Conformance Checking}
+Replay-based conformance checking techniques try to replay the traces recorded in an event log on a process model.
+During the replay, information about deviations are collected:
+\begin{itemize}
+    \item \textbf{Produced Tokens $p$:} the count of tokens produced during the replay of a trace. In the beginning, a token will be produced for the source place;
+    \item \textbf{Consumed Tokens $c$:} the count of tokens consumed during the replay of a trace. At the end, a token will be consumed for the sink place;
+    \item \textbf{Missing Tokens $m$:} When an activity is executed in the event log, but the corresponding transition in the process model cannot be fired due to missing tokens;
+    \item \textbf{Remaining Tokens $r$:} After replaying a trace, the tokens that are left in the process model;
+\end{itemize}
+Using these statistics, we can define the fitness of a trace as follows:
+\begin{equation}
+    \label{eq:fitness}
+    Fitness = \frac{1}{2}(1 - \frac{m}{c}) + \frac{1}{2} (1 - \frac{r}{p})
+\end{equation}
+This measure yields a value between 0 and 1, that can be interpreted as the percentage of behavior in the event log that can be explained by the process model.
+\paragraph{Fitness of an Event Log}
+The fitness equation \ref{eq:fitness} can be used to calculate the fitness of a single trace.
+We can extend this to calculate the fitness of an entire event log by calculating by summing the fitness of each trace, weighted by the number of times the trace appears in the event log:
+\begin{equation}
+    \label{eq:logfitness}
+    Fitness_{Log} = \frac{1}{2} (1 - \frac{\sum_{t \in L} m(t)}{\sum_{t \in L} c(t)}) + \frac{1}{2} (1 - \frac{\sum_{t \in L} r(t)}{\sum_{t \in L} p(t)})
+\end{equation}
+\paragraph{Pros and Cons:}
+Replay-based conformance checking has several advantages:
+\begin{itemize}
+    \item Able to differentiate between fitting and non-fitting behavior;
+    \item intuitive and easy to understand;
+    \item efficient to compute for any log;
+\end{itemize}
+However, there are also some drawbacks:
+\begin{itemize}
+    \item The fitness for problematic traces may still be high, making it difficult to identify specific deviations;
+    \item Only defined for Petri nets;
+    \item It doesn't allow to locate the exact position of deviations within a trace;
+\end{itemize}
+
+\subsection{Alignment-based Conformance Checking}
+Alignment-based conformance checking is built upon the weaknesses of replay-based conformance checking.
+In fact, replay-based techniques cannot provide a corresponding path in the process model.
