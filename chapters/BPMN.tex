@@ -1,0 +1,419 @@
+\section{Business Process Model and Notation (BPMN)}
+
+\subsection{BPMN Syntax}
+BPMN is a graphical representation for specifying business processes in a business process model. It provides a standard notation that is readily understandable by all business stakeholders, including business analysts, technical developers, and business managers.
+
+\subsubsection*{Core Elements}
+The core elements of BPMN can be categorized into four main groups:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/bpmn/core.png}
+    \caption{Core Elements of BPMN}
+\end{figure}
+
+A \textbf{start event} triggers a new process instance (token source), while an \textbf{end event} signifies the completion of a process instance (token sink). 
+
+\paragraph{XOR Gateway}
+An XOR Gateway captures decision points (XOR-split -> takes one outgoing branch) and merges (XOR-join -> takes one incoming branch that completes) alternative paths based on conditions. Only one outgoing path is taken based on the evaluation of conditions.
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{image/bpmn/XORsplit.png}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{image/bpmn/XORjoin.png}
+    \end{minipage}\hfill
+    \caption{XOR-split and XOR-join Gateways}
+\end{figure}
+
+\paragraph{AND Gateway}
+An AND Gateway represents parallelism in the process flow. An AND-split creates multiple concurrent paths (all outgoing branches are taken), while an AND-join synchronizes multiple incoming paths (waits for all incoming branches to complete before proceeding).
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{image/bpmn/ANDsplit.png}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{image/bpmn/ANDjoin.png}
+    \end{minipage}
+    \caption{AND-split and AND-join Gateways}
+\end{figure}
+Beware, there is no ordering among the parallel branches.
+
+\paragraph{OR Gateway}
+An OR Gateway allows for multiple paths to be taken based on conditions. An OR-split can take one or more outgoing branches depending on the evaluation of conditions, while an OR-join waits for one or more incoming branches to complete before proceeding.
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{image/bpmn/ORsplit.png}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{image/bpmn/ORjoin.png}
+    \end{minipage}
+    \caption{OR-split and OR-join Gateways}
+\end{figure}
+
+\paragraph{Naming conventions} 
+It is important to follow naming conventions for clarity:
+\begin{itemize}
+    \item \textbf{Event}: Use noun + past participle (e.g., "Order Received").
+    \item \textbf{Activity}: Use verb + noun (e.g., "Approve Invoice").
+    \item \textbf{Split Gateway}: Use descriptive labels with conditions(e.g., "Is Payment Approved?").
+\end{itemize}
+
+(This for model in blocks)
+Always pair an AND-split with an AND-join to ensure proper synchronization of parallel paths.
+And always pair an XOR-split with an XOR-join to ensure proper merging of alternative paths.
+Sometimes XOR-splits leads to two end events without a join.
+OR-splits and OR-joins can be used alone or in combination with other gateways as needed.
+
+\subsubsection*{Data Objects}
+
+A Data Object captures an artifact required (input) or produced (output) by activities within a process. 
+Can be physical (e.g., paper document) or digital (e.g., electronic file). You can also denote the status of the business object (e.g., "approved", "pending").
+An association link (dashed line) is used to connect data and textual annotations to BPMN elements.
+All occurences of a Data Object represent the same underlying data.
+Input data objects are required for an activity to be executed.
+    
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{image/bpmn/dataObject.png}
+    \caption{Data Object in BPMN}
+\end{figure}
+
+\subsubsection*{Data Store}
+A Data Store is a place containing data objects that is persistent beyond the lifetime of a process instance. It represents a repository where data can be stored and retrieved by different process instances. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{image/bpmn/dataStore.png}
+    \caption{Data Store in BPMN}
+\end{figure}
+
+\subsubsection*{Text Annotations}
+A Text Annotation is used to add descriptive information to a BPMN diagram. It provides additional context or explanations about specific elements or the overall process flow.
+Doesn't affect the process flow.
+\begin{figure}[H]   
+    \centering
+    \includegraphics[width=0.4\textwidth]{image/bpmn/textAnnotation.png}
+    \caption{Text Annotation in BPMN}
+\end{figure}
+
+\subsubsection*{Pools and Lanes}
+\textbf{Pools} captures a resource class. Generally used to model a business party (e.g., a company, department, or system).
+\textbf{Lanes} are subdivisions within a pool that represent specific roles, departments, or functions within the business party. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{image/bpmn/poolLane.png}
+    \caption{Pools and Lanes in BPMN}
+\end{figure}
+
+\subsubsection*{Message Flow } 
+
+A Message Flow represents the flow of messages between two separate process participants (pools). It indicates communication or interaction between different entities in a business process.
+A Message Flow cam connect:
+\begin{itemize}
+    \item directly the boundary of a pool (from a party to another party)
+    \item to a specific activity or event within a pool (from a party to an activity/event or vice versa)
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{image/bpmn/messageFlow.png}
+    \caption{Message Flow in BPMN}
+\end{figure}
+
+A \textbf{sequence flow} (solid line) cannot cross pool boundaries; it can only connect elements within the same pool.
+Both sequence flows and message flows can connect to activities and events within pools.
+A message flow cannot connect directly two flow elements (e.g., activities or events) within the same pool.
+
+An incoming message flow may lead to the creation of the data object by the activity receiving the message.
+
+\subsubsection*{Sub-processes}
+
+In BPMN, a sub-process is a compound activity that encapsulates a set of related tasks or activities within a larger process. 
+It allows for the decomposition of complex processes into more manageable and understandable components, and to share common process logic across multiple processes.
+It can be local (embedded within the main process) or global (defined separately and reusable across multiple processes).
+It requires a start event and an end event to define its boundaries.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{image/bpmn/subprocess.png}
+    \caption{Sub-process in BPMN}
+\end{figure}
+
+It can also delimit parts of the process that can be repeated or interrupted as a whole.
+
+\subsubsection*{Block-structured repetition}
+Activity loop markers can be used to denote that an activity or sub-process can be repeated based on certain conditions.
+It can be used when we have a single entry and a single exit point for the repeated section of the process.
+Then the completion condition is explicitly defined with a \textbf{textual annotation}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{image/bpmn/activityloop.png}
+    \caption{Activity Loop Marker in BPMN}
+\end{figure}    
+
+\subsubsection*{Parallel repetition: multi instance activity}
+The multi-instance marker indicates that an activity or sub-process can be executed multiple times concurrently.
+Useful when the same activity need to be performed for multiple instances of a data object (e.g., processing multiple orders).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{image/bpmn/multiinstance.png}
+    \caption{Multi-instance Marker in BPMN}
+\end{figure}
+
+We can also use a textual annotation to specify the number of instances or the conditions for creating new instances.
+Then we can use this notation also for pools and lanes to indicate that multiple instances of a resource class are involved in the process.
+
+\subsubsection*{Events}
+Events in BPMN represent occurrences that can affect the flow of a business process. They are classified as follows:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/bpmn/eventtable1.png}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/bpmn/eventtable2.png}
+\end{figure}
+
+\textbf{Remark}: use message events only when the corresponding activity would simply send or receive a message without any additional processing.
+It's important to use message receive events to model the receipt of messages that trigger the start of a process or an intermediate event within a process, and not to model the receipt of messages that are part of the normal flow of activities within a process.
+
+\paragraph{Event-based decision}
+Sometimes, a decision point in a process is based on the occurrence of specific events rather than conditions evaluated on data. In such cases, an event-based gateway is used to model the decision point.
+It works similarly to an XOR gateway, but instead of evaluating conditions on data, it waits for one of the specified events to occur before proceeding along the corresponding path.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.2\textwidth]{image/bpmn/eventbasedxor.png}
+    \caption{Event-based Gateway in BPMN}
+\end{figure}
+\begin{figure}[H]   
+    \centering
+    \includegraphics[width=0.6\textwidth]{image/bpmn/eventbasedexample.png}
+    \caption{Example of Event-based Gateway in BPMN}
+\end{figure}
+
+\subsubsection*{Exception Handling}
+Exceptions are events that disrupt the normal flow of a business process. 
+
+\paragraph{Abortion}
+The simplest way to handle exceptions is to abort the process instance when an exception occurs.
+This can be done via the Terminate End Event, which immediately ends the process instance regardless of its current state.
+This causes the abortion of all ongoing activities and the termination of the process instance.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.2\textwidth]{image/bpmn/abortion.png}
+    \caption{Abortion of a Process Instance in BPMN}
+\end{figure}
+
+But we can use more sophisticated exception handling mechanisms, in order to recover from exceptions and continue the process flow.
+
+\paragraph{Boundary Events}
+Through boundary events, we catch intermediate events on the boundary of an activity or sub-process.
+When the boundary event is triggered, the normal flow of the process is interrupted, and the exception handling flow is initiated.
+There
+\begin{itemize}
+    \item \textbf{External boundary events}: triggered by events external to the process (handled with message events).
+    \item \textbf{Internal boundary events}: triggered by events internal to the process (handled with error events).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{image/bpmn/errorevent.png}
+        \caption{Internal Boundary Event in BPMN}
+    \end{figure}
+    \item \textbf{Timeout boundary events}: triggered when a specified time duration elapses (handled with timer events).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/bpmn/boundaryexample.png}
+    \caption{Example of Boundary Events in BPMN}
+\end{figure}
+
+\paragraph{Non-interrupting Boundary Events}
+Sometimes, we want to handle exceptions without interrupting the normal flow of the process. In such cases, we can use non-interrupting boundary events.
+When a non-interrupting boundary event is triggered, the exception handling flow is initiated, but the normal flow of the process continues concurrently.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.2\textwidth]{image/bpmn/non_interrupting.png}
+    \caption{Non-interrupting Boundary Event in BPMN}
+\end{figure}
+
+\paragraph{Compensation Events}
+Compensation events are used to handle situations where an activity needs to be undone or compensated for after it has been completed.
+A compensation event is typically associated with a specific activity or sub-process, and it defines the actions that need to be taken to reverse or mitigate the effects of that activity.
+\begin{figure}[H]
+    \centering  
+    \includegraphics[width=0.6\textwidth]{image/bpmn/compensation.png}
+    \caption{Compensation Event in BPMN}
+\end{figure}
+
+\subsection{Process Qualitative Analysis}
+
+\subsubsection{Value-added analysis}
+This kind of analysis focuses on \textbf{identifying and categorizing} activities within a business process based on their contribution to the overall value delivered to customers or stakeholders.
+After that we can optimize the process by \textbf{eliminating} non-value-added activities.
+
+\paragraph{Identification} We decorticate each activity in the process model and classify it into one of the following categories:
+\begin{itemize}
+    \item \textbf{Value-added activities}: directly contribute to meeting customer requirements 
+        \begin{itemize}
+            \item Is the customer willing to pay for this activity?
+            \item Would the customer agree that this step is necessary to achieve their goals?
+            \item If the step were eliminated, would the customer notice a difference in the final product or service?
+        \end{itemize}
+    \item \textbf{Business value-added activities}: necessary for the business but do not directly add value from the customer's perspective
+        \begin{itemize}
+            \item Is this step required in order to collect revenue, to improve or grow the business?
+            \item Would the business pontentially suffer if this step were eliminated?
+            \item Does it reduce risk of business losses?
+            \item Is this step required to comply with regulations or legal requirements?
+        \end{itemize}
+    \item \textbf{Non-value-adding activities}: do not add value and are not necessary for the business (everything that is not VA or BVA)
+\end{itemize}
+
+\paragraph{Waste Elimination} After identifying and categorizing the activities, we can remove NVA activities and carefully evaluate BVA activities to see if they can be optimized or eliminated without negatively impacting the business.
+We have different source of waste:
+\begin{itemize}
+    \item \textbf{Move}:
+        \begin{itemize}
+            \item \textbf{Transportation}: send or receive materials or document taken as input or output of an activity
+            \item \textbf{Motion}: movement of resources internally within the process  
+        \end{itemize}
+    \item \textbf{Hold}:
+        \begin{itemize}
+            \item \textbf{Inventory}: accumulation of materials or documents waiting to be processed (Work in Progress - WIP)
+            \item \textbf{Waiting}: task waiting for input data or resource availability, or resources waiting for task assignment
+        \end{itemize}
+    \item \textbf{Over-do}:
+        \begin{itemize}
+            \item \textbf{Defects}: correcting or compensating for errors or mistakes in the process (rework loops)
+            \item \textbf{Over-processing}: tasks performed unnecessarily given the outcome required by the customer
+            \item \textbf{Over-production}: unnecessary process instances are performed, producing outcomes that do not add value upon the completion of the process
+        \end{itemize}
+\end{itemize}
+
+\subsubsection{Root-cause analysis}
+Root-cause analysis is a ensemble of techniques helping the analysts the root causes.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{image/bpmn_analysis/root_analysis.png}
+    \caption{Root-cause Analysis Process}
+\end{figure}
+We can use different techniques, such as:
+\begin{itemize}
+    \item \textbf{Why-why (tree) diagram}: iterative questioning technique to drill down into the underlying causes of a problem by repeatedly asking "why" until the root cause is identified.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{image/bpmn_analysis/whywhy.png}
+        \caption{Why-why Diagram Example}
+    \end{figure}
+    \item \textbf{Cause-effect (fishbone) diagram}: visual tool that helps identify, explore, and display the possible causes of a specific problem or effect. It organizes potential causes into categories to facilitate analysis.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{image/bpmn_analysis/fishbone.png}
+        \caption{Cause-effect Diagram Example}
+    \end{figure}
+\end{itemize}
+
+\paragraph{Categories of causes}(Six Ms)
+
+\subsubsection{Issue Register}
+The purpose of an issue register is to document and track issues and weaknesses that arise during the analysis and improvement of business processes.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/bpmn_analysis/issue_reg.png}
+    \caption{Issue Register Example}
+\end{figure}
+
+The \textbf{Pareto Chart} is a useful tool to prioritize issues based on their frequency or impact.
+It is a bar chart that displays the relative frequency or impact of different issues, with the bars arranged in descending order.
+The \textbf{PICK chart} is another tool that helps prioritize issues based on their impact and ease of implementation.
+
+\subsection{Process Quantitative Analysis}
+If you had to choose between two services, you would probably typically choose the one that is faster, cheaper, or better.
+The process performance can be measured through different dimensions:
+\begin{itemize}
+    \item \textbf{Time}: how long it takes to complete a process or specific activities within the process
+    \item \textbf{Cost}: the expenses incurred to execute the process, including labor, materials, and overhead costs
+    \item \textbf{Quality}: the degree to which the process meets customer requirements and expectations
+\end{itemize}
+
+\subsubsection*{Time Measures}
+
+\paragraph{Cycle (throughput) time}: the time between start and completion of a process instance.
+It can be measured as:
+\begin{equation}
+    \text{Cycle throughput time} = \text{Processing Time (PT)} + \text{Waiting Time (WT)}
+\end{equation}
+where:
+\begin{itemize}
+    \item \textbf{Processing Time (PT)}: time taken by value-adding activities
+    \item  \textbf{Waiting Time (WT)}: time spent in non-value-adding activities
+\end{itemize}
+
+The result can be different from a simply sum, depending on the process structure (e.g., parallel paths, loops, etc.).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{image/bpmn_analysis/CTE_table.png}
+    \caption{Cycle Time Calculation Table}
+\end{figure}
+
+\paragraph{Cycle Time Efficiency}
+The Cycle Time Efficiency (CTE) is a measure of how efficiently a process is executed, focusing on the proportion of time spent on value-adding activities compared to the total cycle time.
+It is calculated as:
+\begin{equation}
+    \text{CTE} = \frac{\text{Processing Time (PT)}}{\text{Cycle throughput time}} 
+\end{equation}
+
+\paragraph{Resource Utilization}
+Resource utilization measures how effectively resources (e.g., employees, equipment) are used in a process.
+It is calculated as:
+\begin{equation}
+    \text{Resource Utilization} = \frac{\text{Time spent per resource on process work}}{\text{Total available time per resource}}
+\end{equation}
+Example: if we have a resource utilization of 0.6, on average the resource is busy 60\% of the time and free 40\% of the time.
+
+When resource utilization is high, waiting times tend to increase significantly due to congestion effects.
+
+\subsubsection*{Cost Measures}
+There are typical components of process cost:
+\begin{itemize}
+    \item \textbf{Material cost}: cost of raw materials, components, or supplies used in the process
+    \item \textbf{Resource cost}: cost of human resources involved in executing the process
+\end{itemize}
+
+\paragraph{Per-instance Cost}
+The per-instance cost of a process measures the total cost incurred to complete a single instance of the process.
+It is calculated as:
+\begin{equation}
+    \text{Per-instance Cost} = \text{Processing cost} + \text{Cost of waste}
+\end{equation}
+where:
+\begin{itemize}
+    \item \textbf{Processing cost}: cost associated with value-adding activities
+    \item  \textbf{Cost of waste}: cost associated with non-value-adding activities
+\end{itemize}
+
+\subsubsection*{Quality}
+Quality measures the degree to which a process meets customer requirements and expectations. 
+This can be assessed through various metrics, such as defect rates, on-time delivary rate, cycle-time variance and customer feedback scores.
+\\\\All these measures are used in \textbf{Flow Analysis} to evaluate and improve business processes. 
+Flow analysis can be performed for cycle time calculation, cost-per-process-instance calculation, and calculating error rates.
+Its primary limitations is the fixed arrival rate and the assumption of infinite capacity.
+
+\paragraph{Work-In-Progress (WIP)}
+It's the number of cases that are running, but they are not yet completed.
+WIP is a form of waste. 
+Can be calculated as:
+\begin{equation}
+    \text{WIP} = \lambda \times \text{Cycle Time}
+\end{equation}
+where $\lambda$ is the arrival rate (number of cases arriving per time unit).
+
+Its limitation is that we can't estimate waiting times or queue lenght.
