@@ -3,63 +3,66 @@
 \subsection{BPMN Syntax}
 BPMN is a graphical representation for specifying business processes in a business process model. It provides a standard notation that is readily understandable by all business stakeholders, including business analysts, technical developers, and business managers.
 
-\subsubsection*{Core Elements}
+\subsubsection{Core Elements}
 The core elements of BPMN can be categorized into four main groups:
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{image/bpmn/core.png}
+    \includegraphics[width=0.8\textwidth]{images/bpmn/core.png}
     \caption{Core Elements of BPMN}
 \end{figure}
-
-A \textbf{start event} triggers a new process instance (token source), while an \textbf{end event} signifies the completion of a process instance (token sink). 
-
-\paragraph{XOR Gateway}
-An XOR Gateway captures decision points (XOR-split -> takes one outgoing branch) and merges (XOR-join -> takes one incoming branch that completes) alternative paths based on conditions. Only one outgoing path is taken based on the evaluation of conditions.
-\begin{figure}[H]
-    \centering
-    \begin{minipage}[t]{0.25\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{image/bpmn/XORsplit.png}
-    \end{minipage}\hfill
-    \begin{minipage}[t]{0.25\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{image/bpmn/XORjoin.png}
-    \end{minipage}\hfill
-    \caption{XOR-split and XOR-join Gateways}
-\end{figure}
-
-\paragraph{AND Gateway}
-An AND Gateway represents parallelism in the process flow. An AND-split creates multiple concurrent paths (all outgoing branches are taken), while an AND-join synchronizes multiple incoming paths (waits for all incoming branches to complete before proceeding).
-\begin{figure}[H]
-    \centering
-    \begin{minipage}[t]{0.25\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{image/bpmn/ANDsplit.png}
-    \end{minipage}\hfill
-    \begin{minipage}[t]{0.25\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{image/bpmn/ANDjoin.png}
-    \end{minipage}
-    \caption{AND-split and AND-join Gateways}
-\end{figure}
-Beware, there is no ordering among the parallel branches.
-
-\paragraph{OR Gateway}
-An OR Gateway allows for multiple paths to be taken based on conditions. An OR-split can take one or more outgoing branches depending on the evaluation of conditions, while an OR-join waits for one or more incoming branches to complete before proceeding.
-\begin{figure}[H]
-    \centering
-    \begin{minipage}[t]{0.25\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{image/bpmn/ORsplit.png}
-    \end{minipage}\hfill
-    \begin{minipage}[t]{0.25\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{image/bpmn/ORjoin.png}
-    \end{minipage}
-    \caption{OR-split and OR-join Gateways}
-\end{figure}
-
-\paragraph{Naming conventions} 
+\begin{enumerate}
+    \item \textbf{Events}: represent something that happens during the course of a business process. The core types of events are:
+    \begin{itemize}
+        \item \textbf{Start Event}: trigger a new process instance, by generating a token to start the process;
+        \item \textbf{End Event}: signals that a process instance has completed its execution, by consuming a token.
+    \end{itemize}
+    \item \textbf{Gateways}: represent decision points in a process where the flow can diverge or converge based on certain conditions. The core types of gateways are:
+    \begin{itemize}
+        \item \textbf{XOR Gateway (Exclusive Gateway)}: represents a decision point where only one of the outgoing paths can be taken based on conditions. The \textbf{XOR-split} takes one
+        outgoing branch, while the \textbf{XOR-join} proceeds when one incoming branch completes. 
+        \begin{figure}[H]
+            \centering
+            \begin{minipage}[t]{0.25\textwidth}
+                \centering
+                \includegraphics[width=\linewidth]{images/bpmn/XORsplit.png}
+            \end{minipage}\hfill
+            \begin{minipage}[t]{0.25\textwidth}
+                \centering
+                \includegraphics[width=\linewidth]{images/bpmn/XORjoin.png}
+            \end{minipage}\hfill
+            \caption{XOR-split and XOR-join Gateways}
+        \end{figure}
+        \item \textbf{AND Gateway (Parallel Gateway)}: provides a mechanisms to create and synchronize parallel paths in the process flow.
+        The \textbf{AND-split} creates multiple concurrent paths (all outgoing branches are taken), while the \textbf{AND-join} synchronizes multiple incoming paths (waits for all incoming branches to complete before proceeding).
+        \begin{figure}[H]
+            \centering
+            \begin{minipage}[t]{0.25\textwidth}
+                \centering
+                \includegraphics[width=\linewidth]{images/bpmn/ANDsplit.png}
+            \end{minipage}\hfill
+            \begin{minipage}[t]{0.25\textwidth}
+                \centering
+                \includegraphics[width=\linewidth]{images/bpmn/ANDjoin.png}
+            \end{minipage}
+            \caption{AND-split and AND-join Gateways}
+        \end{figure}
+        \item \textbf{OR Gateway}: provide a mechanism to create and synchronize $m$ out of $n$ paths in the process flow.
+        The \textbf{OR-split} can take one or more outgoing branches, while the \textbf{OR-join} waits for all the active incoming branches to complete before proceeding.
+        \begin{figure}[H]
+            \centering
+            \begin{minipage}[t]{0.25\textwidth}
+                \centering
+                \includegraphics[width=\linewidth]{images/bpmn/ORsplit.png}
+            \end{minipage}\hfill
+            \begin{minipage}[t]{0.25\textwidth}
+                \centering
+                \includegraphics[width=\linewidth]{images/bpmn/ORjoin.png}
+            \end{minipage}
+            \caption{OR-split and OR-join Gateways}
+        \end{figure}
+    \end{itemize}
+\end{enumerate}
+\subsubsection{Naming conventions} 
 It is important to follow naming conventions for clarity:
 \begin{itemize}
     \item \textbf{Event}: Use noun + past participle (e.g., "Order Received").
@@ -67,135 +70,132 @@ It is important to follow naming conventions for clarity:
     \item \textbf{Split Gateway}: Use descriptive labels with conditions(e.g., "Is Payment Approved?").
 \end{itemize}
 
-(This for model in blocks)
-Always pair an AND-split with an AND-join to ensure proper synchronization of parallel paths.
-And always pair an XOR-split with an XOR-join to ensure proper merging of alternative paths.
-Sometimes XOR-splits leads to two end events without a join.
-OR-splits and OR-joins can be used alone or in combination with other gateways as needed.
-
-\subsubsection*{Data Objects}
-
-A Data Object captures an artifact required (input) or produced (output) by activities within a process. 
-Can be physical (e.g., paper document) or digital (e.g., electronic file). You can also denote the status of the business object (e.g., "approved", "pending").
-An association link (dashed line) is used to connect data and textual annotations to BPMN elements.
-All occurences of a Data Object represent the same underlying data.
-Input data objects are required for an activity to be executed.
-    
+\subsubsection{Data Objects}
+A \textbf{Data Object} captures an artifact required (input) or produced (output) by activities within a process. 
+Can be physical (e.g., paper document) or digital (e.g., electronic file). You can also denote the \textbf{status} of the business object inside square brackets (e.g., [approved], [pending]).
+\\\\An \textbf{association link} (dashed line) is used to connect data objects to activities or events of business processes.
+All occurrences of a Data Object represent the same underlying data.
+\\\textbf{Input data objects} represent a blocking condition for the activity to start (the activity cannot start until the input data object is available).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{image/bpmn/dataObject.png}
+    \includegraphics[width=0.4\textwidth]{images/bpmn/dataObject.png}
     \caption{Data Object in BPMN}
 \end{figure}
 
-\subsubsection*{Data Store}
+\subsubsection{Data Store}
 A Data Store is a place containing data objects that is persistent beyond the lifetime of a process instance. It represents a repository where data can be stored and retrieved by different process instances. 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{image/bpmn/dataStore.png}
+    \includegraphics[width=0.4\textwidth]{images/bpmn/dataStore.png}
     \caption{Data Store in BPMN}
 \end{figure}
 
-\subsubsection*{Text Annotations}
+\subsubsection{Text Annotations}\label{bpmn:textannotation}
 A Text Annotation is used to add descriptive information to a BPMN diagram. It provides additional context or explanations about specific elements or the overall process flow.
 Doesn't affect the process flow.
 \begin{figure}[H]   
     \centering
-    \includegraphics[width=0.4\textwidth]{image/bpmn/textAnnotation.png}
+    \includegraphics[width=0.4\textwidth]{images/bpmn/textAnnotation.png}
     \caption{Text Annotation in BPMN}
 \end{figure}
 
-\subsubsection*{Pools and Lanes}
-\textbf{Pools} captures a resource class. Generally used to model a business party (e.g., a company, department, or system).
+\subsubsection{Pools and Lanes}
+\textbf{Pools} captures a resource class. Generally used to model a business party (e.g., a whole company, department, or system).
 \textbf{Lanes} are subdivisions within a pool that represent specific roles, departments, or functions within the business party. 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{image/bpmn/poolLane.png}
+    \includegraphics[width=0.6\textwidth]{images/bpmn/poolLane.png}
     \caption{Pools and Lanes in BPMN}
 \end{figure}
+Activity placed within a lane indicates that it is performed by the role or department represented by that lane.
 
-\subsubsection*{Message Flow } 
-
+\subsubsection{Message Flow} 
 A Message Flow represents the flow of messages between two separate process participants (pools). It indicates communication or interaction between different entities in a business process.
-A Message Flow cam connect:
+A Message Flow can connect:
 \begin{itemize}
     \item directly the boundary of a pool (from a party to another party)
     \item to a specific activity or event within a pool (from a party to an activity/event or vice versa)
 \end{itemize}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{image/bpmn/messageFlow.png}
+    \includegraphics[width=0.6\textwidth]{images/bpmn/messageFlow.png}
     \caption{Message Flow in BPMN}
 \end{figure}
-
-A \textbf{sequence flow} (solid line) cannot cross pool boundaries; it can only connect elements within the same pool.
-Both sequence flows and message flows can connect to activities and events within pools.
-A message flow cannot connect directly two flow elements (e.g., activities or events) within the same pool.
-
+These elements have some syntactic rules:
+\begin{itemize}
+    \item A \textbf{sequence flow} (solid line) cannot cross pool boundaries; it can only connect elements within the same pool;
+    \item Both \textbf{sequence} and \textbf{message flows} can cross the boundaries of lanes within a pool;
+    \item A \textbf{message flow} cannot connect two flow elements within the same pool;
+ 
+\end{itemize}
 An incoming message flow may lead to the creation of the data object by the activity receiving the message.
 
-\subsubsection*{Sub-processes}
+\subsection{Advanced BPMN Constructs}
 
+\subsubsection{Sub-processes}
 In BPMN, a sub-process is a compound activity that encapsulates a set of related tasks or activities within a larger process. 
 It allows for the decomposition of complex processes into more manageable and understandable components, and to share common process logic across multiple processes.
 It can be local (embedded within the main process) or global (defined separately and reusable across multiple processes).
-It requires a start event and an end event to define its boundaries.
+It \textbf{requires} a \textbf{start event} and an end \textbf{event to define} its boundaries.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{image/bpmn/subprocess.png}
+    \includegraphics[width=0.6\textwidth]{images/bpmn/subprocess.png}
     \caption{Sub-process in BPMN}
 \end{figure}
-
 It can also delimit parts of the process that can be repeated or interrupted as a whole.
 
-\subsubsection*{Block-structured repetition}
-Activity loop markers can be used to denote that an activity or sub-process can be repeated based on certain conditions.
+\subsubsection{Block-structured repetition}
+Activity loop markers can be used to denote that an activity or sub-process can be repeated multiple times, based on certain conditions.
 It can be used when we have a single entry and a single exit point for the repeated section of the process.
-Then the completion condition is explicitly defined with a \textbf{textual annotation}.
-
+Then the completion condition is explicitly defined with a \textbf{textual annotation} (\ref{bpmn:textannotation}).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{image/bpmn/activityloop.png}
+    \includegraphics[width=0.4\textwidth]{images/bpmn/activityloop.png}
     \caption{Activity Loop Marker in BPMN}
 \end{figure}    
 
-\subsubsection*{Parallel repetition: multi instance activity}
+\subsubsection{Parallel repetition: multi instance activity}
 The multi-instance marker indicates that an activity or sub-process can be executed multiple times concurrently.
 Useful when the same activity need to be performed for multiple instances of a data object (e.g., processing multiple orders).
-
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{image/bpmn/multiinstance.png}
+    \includegraphics[width=0.4\textwidth]{images/bpmn/multiinstance.png}
     \caption{Multi-instance Marker in BPMN}
 \end{figure}
-
 We can also use a textual annotation to specify the number of instances or the conditions for creating new instances.
 Then we can use this notation also for pools and lanes to indicate that multiple instances of a resource class are involved in the process.
 
-\subsubsection*{Events}
-Events in BPMN represent occurrences that can affect the flow of a business process. They are classified as follows:
+\subsubsection{Events}
+Events in BPMN represent something instantaneous that happens during the execution of a process. They are classified as follows:
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{image/bpmn/eventtable1.png}
+    \includegraphics[width=0.8\textwidth]{images/bpmn/eventtable1.png}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{image/bpmn/eventtable2.png}
+    \includegraphics[width=0.8\textwidth]{images/bpmn/eventtable2.png}
 \end{figure}
-
-\textbf{Remark}: use message events only when the corresponding activity would simply send or receive a message without any additional processing.
-It's important to use message receive events to model the receipt of messages that trigger the start of a process or an intermediate event within a process, and not to model the receipt of messages that are part of the normal flow of activities within a process.
-
+\paragraph{Untyped events:} they are the default events, already introduced in the core elements.
+\paragraph{Message events:} represent the sending or receiving of a message between two process participants (pools).
+\begin{itemize}
+    \item \textbf{Message Start Event}: triggers a new process instance upon receiving a message;
+    \item \textbf{Message End Event}: indicates that a message is sent when the process instance completes;
+    \item \textbf{Message Intermediate:} can be used to send (black envelope) or receive (white envelope) messages during the execution of a process instance.
+\end{itemize}
+It's important to use message events only when the corresponding activity would simply send or receive a message without any additional processing.
+Message receive events should be used to model the receipt of messages that trigger the start of a process or an intermediate event within a process, and not to model the receipt of messages that are part of the normal flow of activities within a process.
+\paragraph{Temporal events:} represent time-based triggers or delays within a process.
 \paragraph{Event-based decision}
 Sometimes, a decision point in a process is based on the occurrence of specific events rather than conditions evaluated on data. In such cases, an event-based gateway is used to model the decision point.
 It works similarly to an XOR gateway, but instead of evaluating conditions on data, it waits for one of the specified events to occur before proceeding along the corresponding path.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.2\textwidth]{image/bpmn/eventbasedxor.png}
+    \includegraphics[width=0.2\textwidth]{images/bpmn/eventbasedxor.png}
     \caption{Event-based Gateway in BPMN}
 \end{figure}
 \begin{figure}[H]   
     \centering
-    \includegraphics[width=0.6\textwidth]{image/bpmn/eventbasedexample.png}
+    \includegraphics[width=0.6\textwidth]{images/bpmn/eventbasedexample.png}
     \caption{Example of Event-based Gateway in BPMN}
 \end{figure}
 
@@ -208,7 +208,7 @@ This can be done via the Terminate End Event, which immediately ends the process
 This causes the abortion of all ongoing activities and the termination of the process instance.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.2\textwidth]{image/bpmn/abortion.png}
+    \includegraphics[width=0.2\textwidth]{images/bpmn/abortion.png}
     \caption{Abortion of a Process Instance in BPMN}
 \end{figure}
 
@@ -223,7 +223,7 @@ There
     \item \textbf{Internal boundary events}: triggered by events internal to the process (handled with error events).
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.8\textwidth]{image/bpmn/errorevent.png}
+        \includegraphics[width=0.8\textwidth]{images/bpmn/errorevent.png}
         \caption{Internal Boundary Event in BPMN}
     \end{figure}
     \item \textbf{Timeout boundary events}: triggered when a specified time duration elapses (handled with timer events).
@@ -231,7 +231,7 @@ There
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{image/bpmn/boundaryexample.png}
+    \includegraphics[width=0.8\textwidth]{images/bpmn/boundaryexample.png}
     \caption{Example of Boundary Events in BPMN}
 \end{figure}
 
@@ -240,7 +240,7 @@ Sometimes, we want to handle exceptions without interrupting the normal flow of 
 When a non-interrupting boundary event is triggered, the exception handling flow is initiated, but the normal flow of the process continues concurrently.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.2\textwidth]{image/bpmn/non_interrupting.png}
+    \includegraphics[width=0.2\textwidth]{images/bpmn/non_interrupting.png}
     \caption{Non-interrupting Boundary Event in BPMN}
 \end{figure}
 
@@ -249,7 +249,7 @@ Compensation events are used to handle situations where an activity needs to be 
 A compensation event is typically associated with a specific activity or sub-process, and it defines the actions that need to be taken to reverse or mitigate the effects of that activity.
 \begin{figure}[H]
     \centering  
-    \includegraphics[width=0.6\textwidth]{image/bpmn/compensation.png}
+    \includegraphics[width=0.6\textwidth]{images/bpmn/compensation.png}
     \caption{Compensation Event in BPMN}
 \end{figure}
 
@@ -302,7 +302,7 @@ We have different source of waste:
 Root-cause analysis is a ensemble of techniques helping the analysts the root causes.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{image/bpmn_analysis/root_analysis.png}
+    \includegraphics[width=0.6\textwidth]{images/bpmn_analysis/root_analysis.png}
     \caption{Root-cause Analysis Process}
 \end{figure}
 We can use different techniques, such as:
@@ -310,13 +310,13 @@ We can use different techniques, such as:
     \item \textbf{Why-why (tree) diagram}: iterative questioning technique to drill down into the underlying causes of a problem by repeatedly asking "why" until the root cause is identified.
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\textwidth]{image/bpmn_analysis/whywhy.png}
+        \includegraphics[width=0.6\textwidth]{images/bpmn_analysis/whywhy.png}
         \caption{Why-why Diagram Example}
     \end{figure}
     \item \textbf{Cause-effect (fishbone) diagram}: visual tool that helps identify, explore, and display the possible causes of a specific problem or effect. It organizes potential causes into categories to facilitate analysis.
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\textwidth]{image/bpmn_analysis/fishbone.png}
+        \includegraphics[width=0.6\textwidth]{images/bpmn_analysis/fishbone.png}
         \caption{Cause-effect Diagram Example}
     \end{figure}
 \end{itemize}
@@ -327,7 +327,7 @@ We can use different techniques, such as:
 The purpose of an issue register is to document and track issues and weaknesses that arise during the analysis and improvement of business processes.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{image/bpmn_analysis/issue_reg.png}
+    \includegraphics[width=0.8\textwidth]{images/bpmn_analysis/issue_reg.png}
     \caption{Issue Register Example}
 \end{figure}
 
@@ -360,7 +360,7 @@ where:
 The result can be different from a simply sum, depending on the process structure (e.g., parallel paths, loops, etc.).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{image/bpmn_analysis/CTE_table.png}
+    \includegraphics[width=0.9\textwidth]{images/bpmn_analysis/CTE_table.png}
     \caption{Cycle Time Calculation Table}
 \end{figure}
 
