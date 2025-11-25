@@ -185,6 +185,10 @@ Events in BPMN represent something instantaneous that happens during the executi
 It's important to use message events only when the corresponding activity would simply send or receive a message without any additional processing.
 Message receive events should be used to model the receipt of messages that trigger the start of a process or an intermediate event within a process, and not to model the receipt of messages that are part of the normal flow of activities within a process.
 \paragraph{Temporal events:} represent time-based triggers or delays within a process.
+\begin{itemize}
+    \item \textbf{Timer Start Event}: triggers a new process instance based on a specific time or date;
+    \item \textbf{Timer Intermediate Event}: can be used to introduce delays or wait for a specific time during the execution of a process instance.
+\end{itemize}
 \paragraph{Event-based decision}
 Sometimes, a decision point in a process is based on the occurrence of specific events rather than conditions evaluated on data. In such cases, an event-based gateway is used to model the decision point.
 It works similarly to an XOR gateway, but instead of evaluating conditions on data, it waits for one of the specified events to occur before proceeding along the corresponding path.
@@ -199,10 +203,10 @@ It works similarly to an XOR gateway, but instead of evaluating conditions on da
     \caption{Example of Event-based Gateway in BPMN}
 \end{figure}
 
-\subsubsection*{Exception Handling}
+%#TODO: check from here on
+\subsubsection{Exception Handling}
 Exceptions are events that disrupt the normal flow of a business process. 
-
-\paragraph{Abortion}
+\paragraph{Abortion:}
 The simplest way to handle exceptions is to abort the process instance when an exception occurs.
 This can be done via the Terminate End Event, which immediately ends the process instance regardless of its current state.
 This causes the abortion of all ongoing activities and the termination of the process instance.
