@@ -72,3 +72,89 @@ To introduce the relationship between Petri nets and transition systems, we firs
 \paragraph{Case:} a case of a Petri net is a sequence of valid transition firings that starts from the initial marking:
 \[ m_0 \xrightarrow{t_1} m_1 \xrightarrow{t_2} m_2 \xrightarrow{t_3} ... \xrightarrow{t_k} m_k \]
 where each \(m_i\) is a marking and each \(t_i\) is a transition, $m_0$ is the initial marking.
+\paragraph{Reachability Graph algorithm:}
+\begin{enumerate}
+    \item Label the initial marking \(m_0\) as the root and tag it as new;
+    \item While there are new markings:
+    \begin{itemize}
+        \item Select a new marking \(m\);
+        \item If no transition are enabled in \(m\), tag \(m\) as dead;
+        \item For each transition \(t\) enabled in \(m\):
+        \begin{itemize}
+            \item \textbf{Obtain} the new marking \(m'\) by firing \(t\) in \(m\);
+            \item \textbf{If} \(m'\) doesn't appear in the graph yet, add it as a new marking;
+            \item \textbf{Add} an arc from \(m\) to \(m'\), labeled with \(t\) if not already present;
+        \end{itemize}
+        \item Tag \(m\) as old;
+    \end{itemize}
+\end{enumerate}
+For example, given the Petri net in figure \ref{fig:petri_example}, the reachability graph can be obtained by:
+\begin{itemize}
+    \item Create the node for the initial marking \(m_0 = (p_1, free, p_4)\) and tag it as new;
+    \item Since transition \(t_1\) and \(t_4\) are enabled in \(m_0\), we can fire them:
+    \begin{itemize}
+        \item Firing \(t_1\) produces the new marking \(m_1 = (p_2, free, p_4)\), we add it to the graph with the corresponding
+        arc from \(m_0\) to \(m_1\) labeled \(t_1\);
+        \item Firing \(t_4\) produces the new marking \(m_2 = (p_1, free, p_5)\), we add it to the graph with the corresponding
+        arc from \(m_0\) to \(m_2\) labeled \(t_4\);
+        
+    \end{itemize}
+    \item We tag \(m_0\) as dead, since no other transitions are enabled in it;
+    \item We select one of the new markings;
+    \item \dots
+\end{itemize}
+Continuing this process until no new markings are left, we obtain the reachability graph shown in figure \ref{fig:petri_reachability}.
+\begin{figure}[H]
+    \label{fig:petri_example}
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/PetriNets/example.png}
+    \caption{Petri Net Structure}
+\end{figure}
+\begin{figure}[ht]
+    \label{fig:petri_reachability}
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/PetriNets/reachablity-graph.png}
+    \caption{Reachability Graph derived from the Petri Net}
+\end{figure}
+\paragraph{State}
+As we have seen in the example, each state in the transition graph corresponds to a marking in the Petri net. Therefore,
+we can derive that each state can be represented as a multi-set of places that contain tokens.
+\paragraph{Reachable markings}
+\defib{Reachable Marking}{
+A marking \(m\) is \textbf{reachable} if there exists a case that leads from \(m_0\) to \(m\).
+}
+\subsection{Properties of Petri Nets}
+Given the representation of a Petri net as a transition system, we can define and analyze some important properties of Petri nets:
+\paragraph{Boundedness}
+Intuitively, a Petri net is bounded if there is a limit to the number of tokens that can accumulate in each place.
+\defib{Boundedness}{
+A Petri net is \textbf{k-bounded} if and only if no place $p$ can contain more than \(k\) tokens for any reachable marking.
+If a Petri net is 1-bounded, it is also called \textbf{safe}.
+}
+We can derive that a Bounded Petri net has a finite number of reachable markings.
+\paragraph{Terminating}
+Intuitively, a Petri net is terminating if it always reach a terminal marking. This implies that every run is finite.
+\defib{Terminating}{
+A Petri net is \textbf{terminating} if and only its reachability graph is finite and has no cycles.
+}
+\paragraph{Deadlock-freedom}
+Intuitively, a Petri net is deadlock-free if it is always possible to fire a transition from any reachable marking.
+\defib{Deadlock-freedom}{
+A Petri net is \textbf{deadlock-free} if and only if there is at least one transition enabled in every reachable marking.
+}
+\paragraph{Dead transition}
+\defib{Dead Transition}{
+A transition \(t\) is \textbf{dead} if it is not enabled in any reachable marking.
+}
+\paragraph{Liveness}
+Intuitively, a transition is live if it can always be fired in the future, regardless of the current marking.
+\defib{Liveness of a Transition}{
+A transition \(t\) is \textbf{live} if and only if from every reachable marking \(m\), there exists a case that leads to a marking \(m'\) where \(t\) is enabled.
+}
+A Petri net is \textbf{live} if and only if all its transitions \(t \in T\) are live.
+\\ Liveness implies deadlock-freedom, but the opposite is not necessarily true.
+\paragraph{Home-marking}
+\defib{Home-marking}{
+A marking \(m\) is a \textbf{home-marking} if it is reachable from every reachable marking.
+}
+A petri net is \textbf{reversible} if and only if its initial marking \(m_0\) is a home-marking. This is true if and only if the reachability graph is strongly connected.
