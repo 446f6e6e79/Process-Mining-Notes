@@ -175,7 +175,7 @@ Events in BPMN represent something instantaneous that happens during the executi
     \centering
     \includegraphics[width=0.8\textwidth]{images/bpmn/eventtable2.png}
 \end{figure}
-\paragraph{Untyped events:} they are the default events, already introduced in the core elements.
+\paragraph{Untyped events:} they are the default events (start and end), already introduced in the core elements.
 \paragraph{Message events:} represent the sending or receiving of a message between two process participants (pools).
 \begin{itemize}
     \item \textbf{Message Start Event}: triggers a new process instance upon receiving a message;
@@ -203,9 +203,8 @@ It works similarly to an XOR gateway, but instead of evaluating conditions on da
     \caption{Example of Event-based Gateway in BPMN}
 \end{figure}
 
-%#TODO: check from here on
 \subsubsection{Exception Handling}
-Exceptions are events that disrupt the normal flow of a business process. 
+Exceptions are events that disrupt the normal flow of a business process. We have different ways to handle or throw exceptions in BPMN.
 \paragraph{Abortion:}
 The simplest way to handle exceptions is to abort the process instance when an exception occurs.
 This can be done via the Terminate End Event, which immediately ends the process instance regardless of its current state.
@@ -215,8 +214,7 @@ This causes the abortion of all ongoing activities and the termination of the pr
     \includegraphics[width=0.2\textwidth]{images/bpmn/abortion.png}
     \caption{Abortion of a Process Instance in BPMN}
 \end{figure}
-
-But we can use more sophisticated exception handling mechanisms, in order to recover from exceptions and continue the process flow.
+We can use more sophisticated exception handling mechanisms, in order to recover from exceptions and continue the process flow.
 
 \paragraph{Boundary Events}
 Through boundary events, we catch intermediate events on the boundary of an activity or sub-process.

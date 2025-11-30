@@ -86,3 +86,7 @@ Where $|a \to_L b|$ is the frequency of direct succession from activity a to act
 The dependency measure can correctly identify parallelism, causality, and choice between activities based on their frequencies.
 \paragraph{Dependency Matrix:}
 The dependency matrix can be computed from the frequency matrix, by applying the dependency measure formula to each pair of activities.
+
+\paragraph{Constructing the Dependency Graph:}
+Given the dependency matrix, and a threshold value $\theta$, the Heuristic Miner constructs the dependency graph.
+For each pair of activities $(a,b)$, if the dependency measure $|a \implies_L b|$ exceeds the threshold $\theta$, an edge is created from node a to node b in the dependency graph.
