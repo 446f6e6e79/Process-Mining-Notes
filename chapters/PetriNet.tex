@@ -50,7 +50,8 @@ For a given transition \(t \in T\):
 A \textbf{marking} of a Petri net is a function \(M: P \rightarrow \mathbb{N}\) that assigns to each place $p \in P$ the number of tokens $M(p)$ present in that place.
 For example, given the Petri net in the figure \ref{fig:petri_formal}, it's marking can be represented as:
 \[M(p1) = 1, M(p2) = 2, M(p3) = 0\]
-
+or alternatively as the multi-set:
+\[M = \left[1 \cdot p1, 2 \cdot p2\right]\]
 \subsubsection*{Enabling and Firing}
 A transition \(t \in T\) is \textbf{enabled} under a marking \(M\) if for every place \(p \in \bullet t\), \(M(p) > 0\).
 In other words, there is at least one token in each of its input places.
@@ -65,7 +66,7 @@ A \textbf{Petri net system} is a pair \(S = (PN, M_0)\) where:
     \item \(PN\) is a Petri net \( (P, T, F) \);
     \item \(M_0\) is the initial marking of the Petri net.
 \end{itemize}
-%# TODO: add petriNet modelling??
+%# TODO: add petriNet modelling?? In my opinion no 
 
 \subsection{Mapping Petri Nets to Transition Systems}
 To introduce the relationship between Petri nets and transition systems, we first need to define a few concepts.
@@ -119,6 +120,11 @@ Continuing this process until no new markings are left, we obtain the reachabili
 \paragraph{State}
 As we have seen in the example, each state in the transition graph corresponds to a marking in the Petri net. Therefore,
 we can derive that each state can be represented as a multi-set of places that contain tokens.
+
+\paragraph{Terminal Marking} 
+It's a reachable marking in which no transition is enabled.
+Intuitively, it represents a dead-end state of the system: once it is reached, the execution cannot continue because there are no outgoing transitions in the transition system.
+
 \paragraph{Reachable markings}
 \defib{Reachable Marking}{
 A marking \(m\) is \textbf{reachable} if there exists a case that leads from \(m_0\) to \(m\).
@@ -158,3 +164,12 @@ A Petri net is \textbf{live} if and only if all its transitions \(t \in T\) are 
 A marking \(m\) is a \textbf{home-marking} if it is reachable from every reachable marking.
 }
 A petri net is \textbf{reversible} if and only if its initial marking \(m_0\) is a home-marking. This is true if and only if the reachability graph is strongly connected.
+
+
+\paragraph{Workflow nets}
+A Petri net is a \textbf{workflow net} (WF-net) if and only if:
+\begin{itemize}
+    \item It has a single source place start and a single sink place end;
+    \item Every trainsition is on a path start to end.
+\end{itemize} 
+A workflow net is \textbf{sound} if and only if its short-circuit net (where start and end are connected by a transition) is live and bounded.
