@@ -90,3 +90,95 @@ The dependency matrix can be computed from the frequency matrix, by applying the
 \paragraph{Constructing the Dependency Graph:}
 Given the dependency matrix, and a threshold value $\theta$, the Heuristic Miner constructs the dependency graph.
 For each pair of activities $(a,b)$, if the dependency measure $|a \implies_L b|$ exceeds the threshold $\theta$, an edge is created from node a to node b in the dependency graph.
+
+\subsubsection{Region-based mining}
+Region-based mining is a technique used to discover Petri nets from event logs by identifying regions in a transition system derived from the log.
+Can be used to discover more complex control-flow structures but it has problems dealing with noise and infrequent behavior.
+
+\subsubsection*{Learning a transition system}
+A transition system is a directed graph where nodes represent states and edges represent transitions between states.
+In order to learn a transition system from an event log, we need to define a state representation.
+We can consider the past or/and future of a trace.
+\\In this context, the \textbf{past} of a trace refers to the sequence of activities executed prior to a given current state. 
+We construct a transition system based on the event log's traces, specifically designed to model and replay the observed behavior.
+\\Then, we define the \textbf{future} of a trace as the sequence of activities that are expected to occur after the current state.
+Starting from the event log, we define the initial state as the complete set of observed traces. 
+We then derive the state space by iteratively removing the leading activity from each trace at every transition until the traces are exhausted.
+\\We can also combine both past and future representations to create a more comprehensive transition system.
+Another possible approach is to add a \textbf{multiset} representation of the traces in the transition system, where the order of activities is not considered.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/proc_discovery/past_trans_system.png}
+    \caption{Example of a Past with multiset abstraction Transition System learned }
+\end{figure}
+
+\subsubsection*{Identifying regions}
+We assume there is only one initial state and it's convenient to also have one final state. 
+All states need to be reachable.
+\\A \textbf{region} is a set of states such that if a transition exits the region, then all equally labeled transitions exit the region, and if a transition enters the region, then all equally labeled transitions enter the region.
+All events not entering or exiting the region do not cross the region.
+\\We can define some properties of regions:
+\begin{itemize}
+    \item \textbf{Trivial regions}: regions that contain either all states or no states at all.
+    \item \textbf{Complement}: if R is a region, then its complement (the set of states not in R) is also a region.
+    \item \textbf{Union and intersection}: if R1 and R2 are regions, then their union (R1 $\cup$ R2) and intersection (R1 $\cap$ R2) are also regions.
+\end{itemize}
+We want to compute all the \textbf{minimal non-trivial regions} (i.e., the smallest possible sets of states that still satisfy the region exit/entry constraints) of the transition system for our algorithm.
+
+\subsubsection*{Constructing the Petri net}
+\begin{itemize}
+    \item For each event in the transition system, a transition is created in the Petri net.
+    \item Compute the minimal non-trivial regions of the transition system.
+    \item For each region, a place is created in the Petri net.
+    \item Add correspoing arcs:
+    \begin{itemize}
+        \item Pre regions: if an event exits the region $r$ ($r$ is a pre region), an arc is added from the corresponding place to the transition.
+        \item Post regions: if an event enters the region $r$ ($r$ is a post region), an arc is added from the transition to the corresponding place.
+    \end{itemize}
+    \item A token is added to each place corresponding to a region that contains the initial state of the transition system.
+\end{itemize}
+
+\subsubsection{Inductive Miner}
+The Inductive Miner is a divide-and-conquer algorithm for process discovery that constructs process models by recursively splitting the event log into smaller segments based on identified patterns.
+The first step of the algorithm is to analyze the event log and compute the \textbf{directly-follows graph}.
+
+\subsubsection*{Partition activities}
+We can apply different \textbf{cuts} to partition the activities in the log:
+\begin{itemize}
+    \item \textbf{Sequence cut} ($\to$): cutting arcs all going in the same direction.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{images/proc_discovery/sequence_cut.png}
+        \caption{Example of Sequence Cut}
+    \end{figure}
+    \item \textbf{Exclusive choice cut} ($\times$): no arcs going one set to another
+    \begin{figure}[H]   
+        \centering
+        \includegraphics[width=0.6\textwidth]{images/proc_discovery/exclusive_cut.png}
+        \caption{Example of Exclusive Choice Cut}
+    \end{figure}
+    \item \textbf{Parallel cut} ($\land$ or $+$): each activity in one subset is connected to each activity in the other subset
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{images/proc_discovery/parallel_cut.png}
+        \caption{Example of Parallel Cut}
+    \end{figure}
+    \item \textbf{Redo-loop cut} ($\circlearrowleft$): one subset is the \textit{body} of the loop, the other subset contains the \textit{redo} part and possibly the \textit{exit} part.
+\end{itemize}
+The Inductive Miner recursively applies these cuts, trying to compute:
+\begin{enumerate}
+    \item a non trivial exclusive choice cut;
+    \item if it is not possible, a non trivial sequence cut;
+    \item if it is not possible, a non trivial parallel cut;
+    \item if it is not possible, a redo-loop cut;
+    \item if none of the previous cuts is possible, it falls back to the \textit{flower model}, which allows for any behavior.
+\end{enumerate}
+
+In this way we can create a process tree representing the structure of the process, by combining the subtrees obtained from each segment of the log.
+Finally, the process tree is converted into a Petri net for further analysis and visualization.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/proc_discovery/process_tree.png}
+    \caption{Example of Process Tree}
+\end{figure}
