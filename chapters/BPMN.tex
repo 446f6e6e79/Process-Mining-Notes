@@ -10,7 +10,14 @@ The core elements of BPMN can be categorized into four main groups:
     \includegraphics[width=0.8\textwidth]{images/bpmn/core.png}
     \caption{Core Elements of BPMN}
 \end{figure}
-\begin{itemize}
+\begin{enumerate}
+    \item \textbf{Events}: represent something that happens during the course of a business process. The core types of events are:
+    \begin{itemize}
+        \item \textbf{Start Event}: trigger a new process instance, by generating a token to start the process;
+        \item \textbf{End Event}: signals that a process instance has completed its execution, by consuming a token.
+    \end{itemize}
+    \item \textbf{Gateways}: represent decision points in a process where the flow can diverge or converge based on certain conditions. The core types of gateways are:
+    \begin{itemize}
         \item \textbf{XOR Gateway (Exclusive Gateway)}: represents a decision point where only one of the outgoing paths can be taken based on conditions. The \textbf{XOR-split} takes one
         outgoing branch, while the \textbf{XOR-join} proceeds when one incoming branch completes. 
         \begin{figure}[H]
@@ -54,7 +61,7 @@ The core elements of BPMN can be categorized into four main groups:
             \caption{OR-split and OR-join Gateways}
         \end{figure}
     \end{itemize}
-
+\end{enumerate}
 \subsubsection{Naming conventions} 
 It is important to follow naming conventions for clarity:
 \begin{itemize}
@@ -100,9 +107,11 @@ Doesn't affect the process flow.
     \includegraphics[width=0.6\textwidth]{images/bpmn/poolLane.png}
     \caption{Pools and Lanes in BPMN}
 \end{figure}
+Activity placed within a lane indicates that it is performed by the role or department represented by that lane.
 
 \subsubsection{Message Flow} 
 A Message Flow represents the flow of messages between two separate process participants (pools).
+It indicates communication or interaction between different entities in a business process.
 A Message Flow can connect:
 \begin{itemize}
     \item directly the boundary of a pool (from a party to another party)
@@ -165,7 +174,23 @@ Events in BPMN represent something instantaneous that happens during the executi
     \includegraphics[width=0.8\textwidth]{images/bpmn/eventtable2.png}
 \end{figure}
 
+\paragraph{Untyped events:} they are the default events (start and end), already introduced in the core elements.
+\paragraph{Message events:} represent the sending or receiving of a message between two process participants (pools).
+\begin{itemize}
+    \item \textbf{Message Start Event}: triggers a new process instance upon receiving a message;
+    \item \textbf{Message End Event}: indicates that a message is sent when the process instance completes;
+    \item \textbf{Message Intermediate:} can be used to send (black envelope) or receive (white envelope) messages during the execution of a process instance.
+\end{itemize}
+It's important to use message events only when the corresponding activity would simply send or receive a message without any additional processing.
+Message receive events should be used to model the receipt of messages that trigger the start of a process or an intermediate event within a process, and not to model the receipt of messages that are part of the normal flow of activities within a process.
+\paragraph{Temporal events:} represent time-based triggers or delays within a process.
+\begin{itemize}
+    \item \textbf{Timer Start Event}: triggers a new process instance based on a specific time or date;
+    \item \textbf{Timer Intermediate Event}: can be used to introduce delays or wait for a specific time during the execution of a process instance.
+\end{itemize}
+
 \paragraph{Event-based decision}
+Sometimes, a decision point in a process is based on the occurrence of specific events rather than conditions evaluated on data. In such cases, an event-based gateway is used to model the decision point.
 It works similarly to an XOR gateway, but instead of evaluating conditions on data, it waits for one of the specified events to occur before proceeding along the corresponding path.
 \begin{figure}[H]
     \centering
@@ -178,10 +203,8 @@ It works similarly to an XOR gateway, but instead of evaluating conditions on da
     \caption{Example of Event-based Gateway in BPMN}
 \end{figure}
 
-\subsubsection{Exception Handling}
-Exceptions are events that disrupt the normal flow of a business process. We have different ways to handle or throw exceptions in BPMN.
-
-\paragraph{Abortion}
+\paragraph{Abortion:}
+The simplest way to handle exceptions is to abort the process instance when an exception occurs.
 This can be done via the Terminate End Event, which immediately ends the process instance regardless of its current state.
 This causes the abortion of all ongoing activities and the termination of the process instance.
 \begin{figure}[H]
@@ -189,6 +212,7 @@ This causes the abortion of all ongoing activities and the termination of the pr
     \includegraphics[width=0.2\textwidth]{images/bpmn/abortion.png}
     \caption{Abortion of a Process Instance in BPMN}
 \end{figure}
+We can use more sophisticated exception handling mechanisms, in order to recover from exceptions and continue the process flow.
 
 \paragraph{Boundary Events}
 Through boundary events, we catch intermediate events on the boundary of an activity or sub-process.
@@ -212,6 +236,7 @@ There
 
 \paragraph{Non-interrupting Boundary Events}
 Sometimes, we want to handle exceptions without interrupting the normal flow of the process. In such cases, we can use non-interrupting boundary events.
+When a non-interrupting boundary event is triggered, the exception handling flow is initiated, but the normal flow of the process continues concurrently.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.2\textwidth]{images/bpmn/non_interrupting.png}
@@ -219,6 +244,7 @@ Sometimes, we want to handle exceptions without interrupting the normal flow of 
 \end{figure}
 
 \paragraph{Compensation Events}
+Compensation events are used to handle situations where an activity needs to be undone or compensated for after it has been completed.
 A compensation event is typically associated with a specific activity or sub-process, and it defines the actions that need to be taken to reverse or mitigate the effects of that activity.
 \begin{figure}[H]
     \centering  
@@ -229,7 +255,8 @@ A compensation event is typically associated with a specific activity or sub-pro
 \subsection{Process Qualitative Analysis}
 
 \subsubsection{Value-added analysis}
-
+This kind of analysis focuses on \textbf{identifying and categorizing} activities within a business process based on their contribution to the overall value delivered to customers or stakeholders.
+After that we can optimize the process by \textbf{eliminating} non-value-added activities.
 \paragraph{Identification} We decorticate each activity in the process model and classify it into one of the following categories:
 \begin{itemize}
     \item \textbf{Value-added activities}: directly contribute to meeting customer requirements 
@@ -269,44 +296,6 @@ We have different source of waste:
         \end{itemize}
 \end{itemize}
 
-%#TODO: Eliminerei da qua fino alla quantitative analysis
-\subsubsection{Root-cause analysis}
-Root-cause analysis is a ensemble of techniques helping the analysts understating the root causes.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{images/bpmn_analysis/root_analysis.png}
-    \caption{Root-cause Analysis Process}
-\end{figure}
-We can use different techniques, such as:
-\begin{itemize}
-    \item \textbf{Why-why (tree) diagram}: iterative questioning technique to drill down into the underlying causes of a problem by repeatedly asking "why" until the root cause is identified.
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.6\textwidth]{images/bpmn_analysis/whywhy.png}
-        \caption{Why-why Diagram Example}
-    \end{figure}
-    \item \textbf{Cause-effect (fishbone) diagram}: visual tool that helps identify, explore, and display the possible causes of a specific problem or effect. It organizes potential causes into categories to facilitate analysis.
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.6\textwidth]{images/bpmn_analysis/fishbone.png}
-        \caption{Cause-effect Diagram Example}
-    \end{figure}
-\end{itemize}
-
-\paragraph{Categories of causes}(Six Ms)
-
-\subsubsection{Issue Register}
-The purpose of an issue register is to document and track issues and weaknesses that arise during the analysis and improvement of business processes.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/bpmn_analysis/issue_reg.png}
-    \caption{Issue Register Example}
-\end{figure}
-
-The \textbf{Pareto Chart} is a useful tool to prioritize issues based on their frequency or impact.
-It is a bar chart that displays the relative frequency or impact of different issues, with the bars arranged in descending order.
-The \textbf{PICK chart} is another tool that helps prioritize issues based on their impact and ease of implementation.
-
 \subsection{Process Quantitative Analysis}
 The process performance can be measured through different dimensions:
 \begin{itemize}
@@ -342,24 +331,6 @@ It is calculated as:
     \text{CTE} = \frac{\text{Processing Time (PT)}}{\text{Cycle throughput time}} 
 \end{equation}
 
-%#TODO: eliminerei da qua a per instance cost
-\paragraph{Resource Utilization}
-Resource utilization measures how effectively resources (e.g., employees, equipment) are used in a process.
-It is calculated as:
-\begin{equation}
-    \text{Resource Utilization} = \frac{\text{Time spent per resource on process work}}{\text{Total available time per resource}}
-\end{equation}
-Example: if we have a resource utilization of 0.6, on average the resource is busy 60\% of the time and free 40\% of the time.
-
-When resource utilization is high, waiting times tend to increase significantly due to congestion effects.
-
-\subsubsection*{Cost Measures}
-There are typical components of process cost:
-\begin{itemize}
-    \item \textbf{Material cost}: cost of raw materials, components, or supplies used in the process
-    \item \textbf{Resource cost}: cost of human resources involved in executing the process
-\end{itemize}
-
 \paragraph{Per-instance Cost}
 The per-instance cost of a process measures the total cost incurred to complete a single instance of the process.
 It is calculated as:
@@ -382,7 +353,4 @@ Can be calculated as:
     \text{WIP} = \lambda \times \text{Cycle Time}
 \end{equation}
 where $\lambda$ is the arrival rate (number of cases arriving per time unit).
-
-Its limitation is that we can't estimate waiting times or queue lenght.
-
-%#TODO: Maybe add queueing analysis but it's not requested in theory
+Its limitation is that we can't estimate waiting times or queue lengths.
