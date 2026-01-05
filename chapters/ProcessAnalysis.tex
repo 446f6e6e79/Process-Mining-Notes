@@ -76,10 +76,17 @@ where:
 
 The result can be different from a simply sum, depending on the process structure (e.g., parallel paths, loops, etc.).
 \begin{figure}[H]
+    \label{fig:cycle_time_table}
     \centering
     \includegraphics[width=0.9\textwidth]{images/bpmn_analysis/CTE_table.png}
     \caption{Cycle Time Calculation Table}
 \end{figure}
+\begin{itemize}
+    \item In case of \textbf{sequential} activities, the cycle time is the sum of the cycle times of each activity;
+    \item In case of \textbf{exclusive choices} (XOR), the cycle time is the weighted average of the cycle times of each branch, using the branching probabilities as weights;
+    \item In case of \textbf{parallel} activities, the cycle time is the maximum cycle time among the parallel branches;
+    \item In case of \textbf{loops}, the cycle time is the sum of the cycle time of the activities inside the loop, divided by the probability of exiting the loop.
+\end{itemize}
 
 \paragraph{Cycle Time Efficiency}
 Given the cycle time, we can calculate the efficiency of the process.
