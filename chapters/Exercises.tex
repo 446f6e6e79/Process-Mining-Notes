@@ -51,3 +51,23 @@ Using the information provided, compute the following:
     \item Finally, we can compute the Cycle Time Efficiency as:
     \[CTE = \frac{PT}{CT} = \frac{25.9 \text{ hours}}{20 \text{ days}} = \frac{25.9}{20 \times 8} = 16\%\]
 \end{enumerate}
+\subsection{Work In Progress (WIP) Analysis}
+Suppose that a fast food restaurant processes on average 1200 customers per day, between 10:00 and 22:00 (12 hours).
+During peak hours (6 hrs per day), the restaurant receives around 900 customers in total and 90 customers (WIP) can be found waiting in line.
+At non peak times, the restaurant receives 300 customers in total and 30 customers (WIP) can be found waiting in line.
+\begin{enumerate}
+    \item Calculate the average time that a customer spends in the restaurant during peak hours (cycle time);
+    \item Calculate the average time that a customer spends in the restaurant during non-peak hours;
+    \item Knowing that the restaurant expects to have more customers during peak hours, and the restaurant capacity is limited, what can the restaurant do to address this?
+\end{enumerate}
+\paragraph{Solution:}
+Using Little's Law, we can calculate the cycle time as:
+\begin{equation*}
+    CT_{\text{peak}} = \frac{WIP_{\text{peak}}}{\lambda_{\text{peak}}} = \frac{90 \text{ customers}}{900 \text{ customers} / 6 \text{ hours}} = 0.6 \text{ hours} = 36 \text{ minutes}
+\end{equation*}
+Using the same formula, we can calculate the cycle time during non-peak hours:
+\begin{equation*}
+    CT_{\text{non-peak}} = \frac{WIP_{\text{non-peak}}}{\lambda_{\text{non-peak}}} = \frac{30 \text{ customers}}{300 \text{ customers} / 6 \text{ hours}} = 0.6 \text{ hours} = 36 \text{ minutes}
+\end{equation*}
+Since we expect more customers during peak hours (higher arrival rate), but the WIP cannot increase, the only way to keep the cycle time constant
+is to decrease the cycle time during peak hours, for example by increasing the number of staff during peak hours, or optimizing the process to serve customers faster.
