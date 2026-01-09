@@ -66,7 +66,6 @@ A \textbf{Petri net system} is a pair \(S = (PN, M_0)\) where:
     \item \(PN\) is a Petri net \( (P, T, F) \);
     \item \(M_0\) is the initial marking of the Petri net.
 \end{itemize}
-%# TODO: add petriNet modelling?? In my opinion no 
 
 \subsection{Mapping Petri Nets to Transition Systems}
 To introduce the relationship between Petri nets and transition systems, we first need to define a few concepts.
@@ -146,7 +145,7 @@ A Petri net is \textbf{terminating} if and only its reachability graph is finite
 \paragraph{Deadlock-freedom}
 Intuitively, a Petri net is deadlock-free if it is always possible to fire a transition from any reachable marking.
 \defib{Deadlock-freedom}{
-A Petri net is \textbf{deadlock-free} if and only if there is at least one transition enabled in every reachable marking.
+A Petri net is \textbf{deadlock-free} if and only if there is at least one transition enabled in every reachable marking, except for terminal markings.
 }
 \paragraph{Dead transition}
 \defib{Dead Transition}{
