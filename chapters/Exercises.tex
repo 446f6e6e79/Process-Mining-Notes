@@ -147,3 +147,13 @@ The exercise requires to:
     \[ M_t: M(p_1) = 0, M(p_2) = 0, M(p_3) = 0, M(p_4) = 4 \]
     \item Yes, for example the marking \(M_0\) enables both transitions \(t_1\) and \(t_3\), leading to a non-deterministic choice between them.
 \end{enumerate}
+
+\subsection{Process Discovery}
+\subsubsection{Alpha Miner}
+Given the following event log:
+\[L = \left[ \langle a,b,c,d,e,f,b,d,c,e,g \rangle, \langle a,b,d,c,e,g \rangle^2, \langle a,b,c,d,e,f,b,c,d,e,f,b,d,c,e,g \rangle\right]\]
+Use the Alpha Miner algorithm to discover a Petri net from the event log.
+\paragraph{Solution:}
+\begin{enumerate}
+    \item First, we need to compute the footprint matrix:
+\end{enumerate}

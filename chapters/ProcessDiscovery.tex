@@ -1,13 +1,22 @@
 \section{Process Discovery}
 Process discovery is a key aspect of process mining that focuses on extracting process models from event logs.
 \subsection{Event Logs}
-An event log is a collection of \textit{cases}. Each case represents as a sequence of \textit{events} that have occurred during the execution of a process.
+An event log is a collection of \textit{cases}. Each case represents as a sequence of \textit{events} that have occurred during the execution of a process instance.
 Each event typically contains attributes such as:
 \begin{itemize}
-    \item Case ID: A unique identifier for the case.
-    \item Activity: The name of the activity that was performed.
-    \item Timestamp: The time at which the event occurred.
-    \item Additional attributes: Such as resource, cost, etc.
+    \item \textbf{Case ID}: A unique identifier for the case. Allows to group events belonging to the same process instance.
+    \item \textbf{Activity}: The name of the activity that was performed.
+    \item \textbf{Timestamp}: The time at which the event occurred.
+    \item \textbf{Additional attributes}: Such as resource, cost, etc.
+\end{itemize}
+\subsection{Discovery challenges}
+Process discovery faces several challenges. The event logs may contain noise, incomplete information, or infrequent behavior that can complicate the discovery process.
+The discovered models need to balance between:
+\begin{itemize}
+    \item \textbf{Fitness}: the discovered model should be able to replicate all the behavior observed in the event log;
+    \item \textbf{Precision}: the discovered model should not allow for behavior that is not observed in the event log;
+    \item \textbf{Generalization}: the discovered model should be able to generalize beyond the specific cases observed in the event log, allowing for similar but unseen behavior;
+    \item \textbf{Simplicity}: the discovered model should be as simple as possible.
 \end{itemize}
 \subsection{Process Mining algorithms}
 Several algorithms have been developed for process discovery. In this section, we will discuss some of the most prominent ones.
@@ -19,12 +28,13 @@ They can be cathegorized into:
     \item \textbf{Computational intelligence approaches}: these algorithms use techniques from artificial intelligence, such as genetic algorithms or neural networks, to discover process models from event logs. Examples include Genetic Process Mining.
 \end{itemize}
 
+\subsubsection{Alpha Miner}
 The Alpha Miner is one of the earliest and most well-known algorithms for process discovery. It constructs a Petri net from an event log by identifying different types of relations between activities, such as:
 \begin{itemize}
     \item \textbf{Direct succession} (directly follows): If activity A is directly followed by activity B in the event log, we denote this as A $>_L$ B.
     \item \textbf{Causality}: If activity A is directly followed by activity B, but B is never directly followed by A, we denote this as A $\to_L$ B. Formally, A $\to_L$ B if A $>_L$ B and not B $>_L$ A.
-    \item \textbf{Parallelism}: If activities A and B can occur independently and in parallel, we denote this as A $\parallel_L$ B.
-    \item \textbf{Choice}: If an event log shows that either activity A or activity B can occur next, we denote this as A $\text{\#}_L$ B.
+    \item \textbf{Parallelism}: If activities A and B can occur independently and in parallel, we denote this as A $\parallel_L$ B. Formally, A $\parallel_L$ B if A $>_L$ B and B $>_L$ A.
+    \item \textbf{Choice}: If an event log shows that either activity A or activity B can occur next, we denote this as A $\text{\#}_L$ B. Formally, A $\text{\#}_L$ B if neither A $>_L$ B nor B $>_L$ A.
 \end{itemize}
 To learn this relations, the Alpha Miner first constructs a footprint matrix.
 \paragraph{Footprint Matrix:}

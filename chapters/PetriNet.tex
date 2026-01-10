@@ -168,7 +168,8 @@ A petri net is \textbf{reversible} if and only if its initial marking \(m_0\) is
 \paragraph{Workflow nets}
 A Petri net is a \textbf{workflow net} (WF-net) if and only if:
 \begin{itemize}
-    \item It has a single source place start and a single sink place end;
-    \item Every trainsition is on a path start to end.
+    \item It has a single source place start (no incoming transitions) and a single sink place end (no outgoing transitions);
+    \item Every transition is on a path from start to end.
 \end{itemize} 
 A workflow net is \textbf{sound} if and only if its short-circuit net (where start and end are connected by a transition) is live and bounded.
+\\Soundness ensures that the modeled process can always complete properly, starting from the initial state and reaching the final state without getting stuck or running indefinitely.
