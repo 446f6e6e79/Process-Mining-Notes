@@ -115,11 +115,11 @@ We construct a transition system based on the event log's traces, specifically d
 Starting from the event log, we define the initial state as the complete set of observed traces. 
 We then derive the state space by iteratively removing the leading activity from each trace at every transition until the traces are exhausted.
 \\We can also combine both past and future representations to create a more comprehensive transition system.
-Another possible approach is to add a \textbf{multiset} representation of the traces in the transition system, where the order of activities is not considered.
-
+\\Other possible apporaches include the use of abstractions, such as multisets (keep the frequency, not the order) or sets (only keep the activities, not the frequency nor the order),
+keeping only the last \(k\) activities. This allows for a more compact representation of the state space.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{images/proc_discovery/past_trans_system.png}
+    \includegraphics[width=0.6\textwidth]{../images/proc_discovery/past_trans_system.png}
     \caption{Example of a Past with multiset abstraction Transition System learned }
 \end{figure}
 
@@ -159,19 +159,19 @@ We can apply different \textbf{cuts} to partition the activities in the log:
     \item \textbf{Sequence cut} ($\to$): cutting arcs all going in the same direction.
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\textwidth]{images/proc_discovery/sequence_cut.png}
+        \includegraphics[width=0.6\textwidth]{../images/proc_discovery/sequence_cut.png}
         \caption{Example of Sequence Cut}
     \end{figure}
     \item \textbf{Exclusive choice cut} ($\times$): no arcs going one set to another
     \begin{figure}[H]   
         \centering
-        \includegraphics[width=0.6\textwidth]{images/proc_discovery/exclusive_cut.png}
+        \includegraphics[width=0.6\textwidth]{../images/proc_discovery/exclusive_cut.png}
         \caption{Example of Exclusive Choice Cut}
     \end{figure}
     \item \textbf{Parallel cut} ($\land$ or $+$): each activity in one subset is connected to each activity in the other subset
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\textwidth]{images/proc_discovery/parallel_cut.png}
+        \includegraphics[width=0.6\textwidth]{../images/proc_discovery/parallel_cut.png}
         \caption{Example of Parallel Cut}
     \end{figure}
     \item \textbf{Redo-loop cut} ($\circlearrowleft$): one subset is the \textit{body} of the loop, the other subset contains the \textit{redo} part and possibly the \textit{exit} part.
@@ -189,6 +189,6 @@ In this way we can create a process tree representing the structure of the proce
 Finally, the process tree is converted into a Petri net for further analysis and visualization.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/proc_discovery/process_tree.png}
+    \includegraphics[width=0.8\textwidth]{../images/proc_discovery/process_tree.png}
     \caption{Example of Process Tree}
 \end{figure}
