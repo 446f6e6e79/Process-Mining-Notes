@@ -151,9 +151,10 @@ We want to compute all the \textbf{minimal non-trivial regions} (i.e., the small
 
 \subsubsection{Inductive Miner}
 The Inductive Miner is a divide-and-conquer algorithm for process discovery that constructs process models by recursively splitting the event log into smaller segments based on identified patterns.
-The first step of the algorithm is to analyze the event log and compute the \textbf{directly-follows graph}.
+The first step of the algorithm is to analyze the event log and compute the \textbf{directly-follows graph} (each activity is connected to the activities that directly follow it).
 
 \subsubsection*{Partition activities}
+The idea is to recursively partition the set of activities in the log into subsets of the form $\langle x \rangle^k$.
 We can apply different \textbf{cuts} to partition the activities in the log:
 \begin{itemize}
     \item \textbf{Sequence cut} ($\to$): cutting arcs all going in the same direction.
@@ -162,6 +163,8 @@ We can apply different \textbf{cuts} to partition the activities in the log:
         \includegraphics[width=0.6\textwidth]{../images/proc_discovery/sequence_cut.png}
         \caption{Example of Sequence Cut}
     \end{figure}
+    For each of the two subsets of activities obtained from the cut, we create the sublog containing only the traces that involve 
+    activities from that subset, as shown in the figure above.
     \item \textbf{Exclusive choice cut} ($\times$): no arcs going one set to another
     \begin{figure}[H]   
         \centering
@@ -176,7 +179,7 @@ We can apply different \textbf{cuts} to partition the activities in the log:
     \end{figure}
     \item \textbf{Redo-loop cut} ($\circlearrowleft$): one subset is the \textit{body} of the loop, the other subset contains the \textit{redo} part and possibly the \textit{exit} part.
 \end{itemize}
-The Inductive Miner recursively applies these cuts, trying to compute:
+The Inductive Miner recursively applies these cuts, trying to compute in the following order:
 \begin{enumerate}
     \item a non trivial exclusive choice cut;
     \item if it is not possible, a non trivial sequence cut;

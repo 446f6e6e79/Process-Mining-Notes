@@ -73,19 +73,25 @@ Use the Alpha Miner algorithm to discover a Petri net from the event log.
 \end{enumerate}
 \subsubsection{Exercise 3}
 Given the following event log:
-\[L_4 = [\langle a,c,d \rangle^45, \langle b,c,d \rangle^42, \langle a,c,e \rangle^38, \langle b,c,e \rangle^22]\]
+\[L_4 = [\langle a,c,d \rangle^{45}, \langle b,c,d \rangle^{42}, \langle a,c,e \rangle^{38}, \langle b,c,e \rangle^{22}]\]
 build the process model using the Alpha Miner algorithm.
 \paragraph{Solution}
 \begin{enumerate}
     \item 
 \end{enumerate}
 
+\subsubsection{Exercise 4}
+Consider the following event log:
+\[L = [\langle a,b,d \rangle^{100}, \langle a,c,b,d \rangle^{80}, \langle a,b,c,d \rangle^{2}, \langle a,c,d \rangle^{40}, \langle a,d \rangle^{1}]\]
+Use the Alpha Miner algorithm to discover a Petri net from the event log.
+\paragraph{Solution:}
+
 \subsection{Heuristic Miner}
 \subsubsection{Exercise 1}
 Given the following event log:
-\[L = [\langle a,e \rangle^5, \langle a,b,c,e \rangle^10, \langle a,c,b,e \rangle^10, \langle a,b,e \rangle^1, \langle a,c,e \rangle^1,\]
+\[L = [\langle a,e \rangle^5, \langle a,b,c,e \rangle^{10}, \langle a,c,b,e \rangle^{10}, \langle a,b,e \rangle^{1}, \langle a,c,e \rangle^{1},\]
 \[
-\langle a,d,e \rangle^10, \langle a,d,d,e \rangle^2, \langle a,d,d,d,e \rangle^1]
+\langle a,d,e \rangle^{10}, \langle a,d,d,e \rangle^{2}, \langle a,d,d,d,e \rangle^{1}]
 \]
 use the Heuristic Miner algorithm to discover a process model from the event log, with a threshold of 0.7:
 \paragraph{Solution:}
@@ -141,12 +147,12 @@ use the Heuristic Miner algorithm to discover a process model from the event log
 \end{enumerate}
 \subsubsection{Exercise 2}
 Given the following event log:
-\[L_2 = \left[ \langle a,b,d,e \rangle^80, \langle a,d,b,e \rangle^30, \langle a,e \rangle^2, \langle a,b,c,d,e \rangle^10 \right] \]
+\[L_2 = \left[ \langle a,b,d,e \rangle^{80}, \langle a,d,b,e \rangle^{30}, \langle a,e \rangle^{2}, \langle a,b,c,d,e \rangle^{10} \right] \]
 use the Heuristic Miner algorithm to discover the dependency matrix from the event log and build the dependency graph with a threshold of 0.9.
 
 \subsubsection{Exercise 3}
 Given the following event log:
-\[L_3 = \left[ \langle a,b,d \rangle^100, \langle a,c,b,d \rangle^80, \langle a,b,c,d \rangle^2, \langle a,c,d \rangle^40, \langle a,d \rangle^1 \right] \]
+\[L_3 = \left[ \langle a,b,d \rangle^{100}, \langle a,c,b,d \rangle^{80}, \langle a,b,c,d \rangle^{2}, \langle a,c,d \rangle^{40}, \langle a,d \rangle^{1} \right] \]
 Compute:
 \begin{itemize}
     \item The frequency matrix;
@@ -194,3 +200,37 @@ Given the previous transition system, compute the resulting Petri net:
         \caption{Petri Net Derived from the Transition System}
     \end{figure}
 \end{enumerate}
+\subsubsection{Exercise 3}
+Given the following event log:
+\[L = [\langle a,b,c,d \rangle^3, \langle a,c,b,d \rangle^2, \langle a,e,d \rangle^1]\] 
+build the process model using the Region Based Miner algorithm with \textit{past with set abstraction}.
+\paragraph{Solution:}
+
+\subsubsection{Exercise 4}
+Given the following event log:
+\[L = [\langle a,b,d \rangle^{100}, \langle a,c,b,d \rangle^{80}, \langle a,b,c,d \rangle^{2}, \langle a,c,d \rangle^{40}, \langle a,d \rangle^{1}]\]
+Use the Region Based Miner algorithm with \textit{past with set abstraction} to discover a Petri Net:
+
+\subsection{Inductive Miner}
+\subsubsection{Exercise 1}
+Given the following event log:
+\[L = [\langle a,b,c,d \rangle^3,
+    \langle a,c,b,d \rangle^4,
+    \langle a,b,c,e,f,b,c,d \rangle^2,
+    \langle a,c,b,e,f,b,c,d \rangle^2,\]
+\[
+    \langle a,b,c,e,f,c,b,d \rangle,
+    \langle a,c,b,e,f,b,c,e,f,c,b,d \rangle 
+\]
+use the Inductive Miner algorithm to discover a process model from the event log.
+\paragraph{Solution:}
+
+\subsubsection{Exercise 2}
+Given the following event log:
+\[L = [\langle a,c,d \rangle^{45}, \langle b,c,d \rangle^{42}, \langle a,c,e \rangle^{38}, \langle b,c,e \rangle^{22}]\]
+use the Inductive Miner algorithm to discover a process model from the event log.
+
+\subsubsection{Exercise 3}
+Given the following event log:
+\[L = [\langle a,b,d \rangle^{100}, \langle a,c,b,d \rangle^{80}, \langle a,b,c,d \rangle^{2}, \langle a,c,d \rangle^{40}, \langle a,d \rangle^{1}]\]
+use the Inductive Miner algorithm to discover a process model from the event log.
