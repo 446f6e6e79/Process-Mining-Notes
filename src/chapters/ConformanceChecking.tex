@@ -3,25 +3,17 @@ Conformance check tries to verify if the behavior of a process model is in line 
 It identifies execution traces in the event log that deviate from the process model and vice versa.
 There are several techniques to perform conformance checking.
 
-%#TODO: I would eliminate this paragraph 
-\paragraph{Usage of Conformance Checking:}
-Conformance checking can be used for several purposes:
-\begin{itemize}
-    \item \textbf{Discriminate} between fitting and non-fitting traces;
-    \item \textbf{Locate Deviations} within traces;
-    \item \textbf{Compare Models:} different process models can be compared based on their conformance with an event log;
-    \item \textbf{Diagnonistics:} identify bottlenecks and inefficiencies in the process by analyzing deviations;
-    \item \textbf{Compare discovered models:} evaluate the quality of process discovery algorithms by measuring how well the discovered model fits the event log;
-\end{itemize}
-
 \subsection{Replay-based Conformance Checking}
 Replay-based conformance checking techniques try to replay the traces recorded in an event log on a process model.
 During the replay, information about deviations are collected:
 \begin{itemize}
-    \item \textbf{Produced Tokens $p$:} the count of tokens produced during the replay of a trace. In the beginning, a token will be produced for the source place;
-    \item \textbf{Consumed Tokens $c$:} the count of tokens consumed during the replay of a trace. At the end, a token will be consumed for the sink place;
-    \item \textbf{Missing Tokens $m$:} When an activity is executed in the event log, but the corresponding transition in the process model cannot be fired due to missing tokens;
-    \item \textbf{Remaining Tokens $r$:} After replaying a trace, the tokens that are left in the process model;
+    \item \textbf{Produced Tokens $p$:} the count of tokens produced during the replay of a trace. In the beginning, a token will be produced for the source place.
+    Each time a transition is fired, tokens will be produced for each output place of the transition;
+    \item \textbf{Consumed Tokens $c$:} the count of tokens consumed during the replay of a trace. At the end, a token will be consumed for the sink place.
+    Each time a transition is fired, tokens will be consumed from each input place of the transition;
+    \item \textbf{Missing Tokens $m$:} When an activity is executed in the event log, but the corresponding transition in the process model cannot be fired due to missing tokens,
+    tokens are artificially added to enable the firing of the transition. Note that these tokens are not considered in the produced tokens count;
+    \item \textbf{Remaining Tokens $r$:} After replaying a trace, the tokens that are left in the process model.
 \end{itemize}
 Using these statistics, we can define the fitness of a trace as follows:
 \begin{equation}
@@ -31,24 +23,19 @@ Using these statistics, we can define the fitness of a trace as follows:
 This measure yields a value between 0 and 1, that can be interpreted as the percentage of behavior in the event log that can be explained by the process model.
 \paragraph{Fitness of an Event Log}
 The fitness equation \ref{eq:fitness} can be used to calculate the fitness of a single trace.
-We can extend this to calculate the fitness of an entire event log by calculating by summing the fitness of each trace, weighted by the number of times the trace appears in the event log:
+We can extend this to calculate the fitness of an entire event log by summing the statistics over all traces in the log (we can compute the statistics for each unique trace and then weight them by their frequency in the log):
 \begin{equation}
     \label{eq:logfitness}
     Fitness_{Log} = \frac{1}{2} (1 - \frac{\sum_{t \in L} m(t)}{\sum_{t \in L} c(t)}) + \frac{1}{2} (1 - \frac{\sum_{t \in L} r(t)}{\sum_{t \in L} p(t)})
 \end{equation}
-%#TODO: I would eliminate this paragraph 
+
 \paragraph{Pros and Cons:}
-Replay-based conformance checking has several advantages:
+Replay-based conformance allows for a simple and intuitive way to differentiate between fitting and non-fitting traces.
+However, it has some limitations:
 \begin{itemize}
-    \item Able to differentiate between fitting and non-fitting behavior;
-    \item intuitive and easy to understand;
-    \item efficient to compute for any log;
-\end{itemize}
-However, there are also some drawbacks:
-\begin{itemize}
-    \item The fitness for problematic traces may still be high, making it difficult to identify specific deviations;
+    \item Fitness is too high for problematic event logs;
     \item Only defined for Petri nets;
-    \item It doesn't allow to locate the exact position of deviations within a trace;
+    \item No information about where the deviations occur in the process model;
 \end{itemize}
 
 \subsection{Alignment-based Conformance Checking}
@@ -59,8 +46,8 @@ An alignment is a sequence of steps that map events in the trace to transitions 
 Each step in the alignment can be one of the following:
 \begin{itemize}
     \item \textbf{Synchronous Move:} an event in the trace matches a transition in the process model;
-    \item \textbf{Log Move:} an event in the trace does not have a corresponding transition in the process model;
-    \item \textbf{Model Move:} a transition in the process model is executed without a corresponding event in the trace;
+    \item \textbf{Log Move:} an event in the trace does not have a corresponding transition in the process model. We move in the log, while the model remains in the same state;
+    \item \textbf{Model Move:} a transition in the process model is executed without a corresponding event in the trace. We move in the model, while the log remains in the same state;
 \end{itemize}
 It's an \textbf{illegal} move to two different events between the log and the model.
 \\\\Then we define a \textbf{standard cost} function to assign costs to each type of move:
@@ -68,6 +55,7 @@ It's an \textbf{illegal} move to two different events between the log and the mo
     \item \textbf{Synchronous Move:} cost 0;
     \item \textbf{Log Move:} cost 1;
     \item \textbf{Model Move:} cost 1;
+    \item \textbf{Illegal Move:} cost $\infty$;
 \end{itemize}
 The goal of alignment-based conformance checking is to find the alignment with the lowest total cost, which is defined as the \textbf{optimal alignment}.
 \begin{figure}[H]
@@ -76,7 +64,7 @@ The goal of alignment-based conformance checking is to find the alignment with t
     \caption{Example of an alignments}
 \end{figure}
 It's possible to define various cost functions depending on the specific application or domain, or to assign different weights to different types of moves.
-
+For example, if we want to penalize non-compliant behavior in the log, we can assign a higher cost to log moves compared to model moves.
 \subsubsection*{Computing Fitness}
 The idea is to compare the cost of an optimal alignment with the cost of a worst-case alignment.
 In formula:

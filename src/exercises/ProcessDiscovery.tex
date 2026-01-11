@@ -1,18 +1,22 @@
 \section{Process Discovery}
 \subsection{Alpha Miner}
-\subsubsection{Exercise 1}
+
+\begin{exercise}{1}
 Given the following event log:
 \[L_1 = [\langle a,b,c,d \rangle^3, \langle a,c,b,d \rangle^2, \langle a,e,d \rangle^1]\]
 build the process model using the Alpha Miner algorithm.
+\end{exercise}
 \paragraph{Solution}
 \begin{enumerate}
     \item 
 \end{enumerate}
 
-\subsubsection{Exercise 2}
+\begin{exercise}{2}
 Given the following event log:
-\[L = \left[ \langle a,b,c,d,e,f,b,d,c,e,g \rangle, \langle a,b,d,c,e,g \rangle^2, \langle a,b,c,d,e,f,b,c,d,e,f,b,d,c,e,g \rangle\right]\]
+\[L = [ \langle a,b,c,d,e,f,b,d,c,e,g \rangle, \langle a,b,d,c,e,g \rangle^2,\] 
+\[\langle a,b,c,d,e,f,b,c,d,e,f,b,d,c,e,g \rangle]\]
 Use the Alpha Miner algorithm to discover a Petri net from the event log.
+\end{exercise}
 \paragraph{Solution:}
 \begin{enumerate}
     \item First, we need to compute the footprint matrix:
@@ -39,28 +43,31 @@ Use the Alpha Miner algorithm to discover a Petri net from the event log.
     \end{itemize}
     \item Then, we identify the pairs of sets of transitions that satisfy the Alpha Miner conditions.
     To find the first pairs, we look for causality relations in the footprint matrix:
-    \[\{
-        (\{a\}, \{b\}),\ 
-        (\{b\}, \{c\}),\ 
-        (\{b\}, \{d\}),\ 
-        (\{f\}, \{b\}),\ 
-        (\{c\}, \{e\}),\
-        (\{d\}, \{e\}),\
-        (\{e\}, \{f\}),
+    \[
+    \{
+        (\{a\}, \{b\}),\\
+        (\{b\}, \{c\}),\\
+        (\{b\}, \{d\}),\\
+        (\{f\}, \{b\}),\\
+        (\{c\}, \{e\}),\\
+        (\{d\}, \{e\}),\\
+        (\{e\}, \{f\}),\\
         (\{e\}, \{g\})
     \}
     \]
     \item We can then group these pairs into maximal sets:
-    \[\{
-        (\{a,f\}, \{b\}),\ 
-        (\{e\}, \{f,g\}),\
+    \[
+    \{
+        (\{a,f\}, \{b\}),\\
+        (\{e\}, \{f,g\})
     \}
     \]
     And we can remove the non-maximal sets that composed them:
-    \[\{
-        (\{a\}, \{b\}),\
-        (\{f\}, \{b\}),\
-        (\{e\}, \{f\}),\
+    \[
+    \{
+        (\{a\}, \{b\}),\\
+        (\{f\}, \{b\}),\\
+        (\{e\}, \{f\}),\\
         (\{e\}, \{g\})
     \}
     \]
@@ -71,29 +78,34 @@ Use the Alpha Miner algorithm to discover a Petri net from the event log.
         \caption{Petri Net Discovered using the Alpha Miner}
     \end{figure}
 \end{enumerate}
-\subsubsection{Exercise 3}
+
+\begin{exercise}{3}
 Given the following event log:
 \[L_4 = [\langle a,c,d \rangle^{45}, \langle b,c,d \rangle^{42}, \langle a,c,e \rangle^{38}, \langle b,c,e \rangle^{22}]\]
 build the process model using the Alpha Miner algorithm.
+\end{exercise}
 \paragraph{Solution}
 \begin{enumerate}
     \item 
 \end{enumerate}
 
-\subsubsection{Exercise 4}
+\begin{exercise}{4}
 Consider the following event log:
 \[L = [\langle a,b,d \rangle^{100}, \langle a,c,b,d \rangle^{80}, \langle a,b,c,d \rangle^{2}, \langle a,c,d \rangle^{40}, \langle a,d \rangle^{1}]\]
 Use the Alpha Miner algorithm to discover a Petri net from the event log.
+\end{exercise}
 \paragraph{Solution:}
 
 \subsection{Heuristic Miner}
-\subsubsection{Exercise 1}
+
+\begin{exercise}{1}
 Given the following event log:
 \[L = [\langle a,e \rangle^5, \langle a,b,c,e \rangle^{10}, \langle a,c,b,e \rangle^{10}, \langle a,b,e \rangle^{1}, \langle a,c,e \rangle^{1},\]
 \[
 \langle a,d,e \rangle^{10}, \langle a,d,d,e \rangle^{2}, \langle a,d,d,d,e \rangle^{1}]
 \]
-use the Heuristic Miner algorithm to discover a process model from the event log, with a threshold of 0.7:
+use the Heuristic Miner algorithm to discover a process model from the event log, with a threshold of 0.7.
+\end{exercise}
 \paragraph{Solution:}
 \begin{enumerate}
     \item First, we need to compute the frequency matrix:
@@ -137,7 +149,7 @@ use the Heuristic Miner algorithm to discover a process model from the event log
     \end{tabular}
     \caption{Dependency Matrix for the Event Log \(L\)}
     \end{table}
-    \item We can then build the dependecy graph, using the given threshold.
+    \item We can then build the dependency graph, using the given threshold.
     We create a node for each activity in the log, and add the directed edges for each pair of activities whose dependency measure is above the threshold:
     \begin{figure}[H]
         \centering
@@ -145,12 +157,14 @@ use the Heuristic Miner algorithm to discover a process model from the event log
         \caption{Dependency Graph for the Event Log \(L\)}
     \end{figure}
 \end{enumerate}
-\subsubsection{Exercise 2}
+
+\begin{exercise}{2}
 Given the following event log:
 \[L_2 = \left[ \langle a,b,d,e \rangle^{80}, \langle a,d,b,e \rangle^{30}, \langle a,e \rangle^{2}, \langle a,b,c,d,e \rangle^{10} \right] \]
 use the Heuristic Miner algorithm to discover the dependency matrix from the event log and build the dependency graph with a threshold of 0.9.
+\end{exercise}
 
-\subsubsection{Exercise 3}
+\begin{exercise}{3}
 Given the following event log:
 \[L_3 = \left[ \langle a,b,d \rangle^{100}, \langle a,c,b,d \rangle^{80}, \langle a,b,c,d \rangle^{2}, \langle a,c,d \rangle^{40}, \langle a,d \rangle^{1} \right] \]
 Compute:
@@ -159,11 +173,14 @@ Compute:
     \item The dependency matrix;
     \item The dependency graph with a threshold of 0.9 and a threshold for direct succession of 1.
 \end{itemize}
+\end{exercise}
 
 \subsection{Region Based Miner}
-\subsubsection{Exercise 1}
+
+\begin{exercise}{1}
 Construct a transition system applying the \textit{past with multiset abstraction} for the given log:
 \[L = [\langle a,c,b,d \rangle, \langle a,b,c,d \rangle, \langle b,a,c,d \rangle]\]
+\end{exercise}
 \paragraph{Solution:}
 \begin{enumerate}
     \item We create a starting state \(q_0\) with an empty multiset;
@@ -181,8 +198,10 @@ Construct a transition system applying the \textit{past with multiset abstractio
         \caption{Transition System using Past with Multiset Abstraction}
     \end{figure}
 \end{enumerate}
-\subsubsection{Exercise 2}
-Given the previous transition system, compute the resulting Petri net:
+
+\begin{exercise}{2}
+Given the previous transition system, compute the resulting Petri net.
+\end{exercise}
 \paragraph{Solution:}
 \begin{enumerate}
     \item We identify the minimal, non-trivial regions in the transition system. In this case, we have:
@@ -194,25 +213,29 @@ Given the previous transition system, compute the resulting Petri net:
     \item We then create a place for each region. 
     All the transition entering a region will have an arc to the corresponding place, and all transitions leaving the region will have an arc from the place.
     This results in the following Petri net:
-    \begin{figure}[H][H]
+    \begin{figure}[H]
         \centering
         \includegraphics[width=0.7\textwidth]{../images/exercises/region_miner_2-1.png}
         \caption{Petri Net Derived from the Transition System}
     \end{figure}
 \end{enumerate}
-\subsubsection{Exercise 3}
+
+\begin{exercise}{3}
 Given the following event log:
 \[L = [\langle a,b,c,d \rangle^3, \langle a,c,b,d \rangle^2, \langle a,e,d \rangle^1]\] 
 build the process model using the Region Based Miner algorithm with \textit{past with set abstraction}.
+\end{exercise}
 \paragraph{Solution:}
 
-\subsubsection{Exercise 4}
+\begin{exercise}{4}
 Given the following event log:
 \[L = [\langle a,b,d \rangle^{100}, \langle a,c,b,d \rangle^{80}, \langle a,b,c,d \rangle^{2}, \langle a,c,d \rangle^{40}, \langle a,d \rangle^{1}]\]
-Use the Region Based Miner algorithm with \textit{past with set abstraction} to discover a Petri Net:
+Use the Region Based Miner algorithm with \textit{past with set abstraction} to discover a Petri Net.
+\end{exercise}
 
 \subsection{Inductive Miner}
-\subsubsection{Exercise 1}
+
+\begin{exercise}{1}
 Given the following event log:
 \[L = [\langle a,b,c,d \rangle^3,
     \langle a,c,b,d \rangle^4,
@@ -223,14 +246,17 @@ Given the following event log:
     \langle a,c,b,e,f,b,c,e,f,c,b,d \rangle 
 \]
 use the Inductive Miner algorithm to discover a process model from the event log.
+\end{exercise}
 \paragraph{Solution:}
 
-\subsubsection{Exercise 2}
+\begin{exercise}{2}
 Given the following event log:
 \[L = [\langle a,c,d \rangle^{45}, \langle b,c,d \rangle^{42}, \langle a,c,e \rangle^{38}, \langle b,c,e \rangle^{22}]\]
 use the Inductive Miner algorithm to discover a process model from the event log.
+\end{exercise}
 
-\subsubsection{Exercise 3}
+\begin{exercise}{3}
 Given the following event log:
 \[L = [\langle a,b,d \rangle^{100}, \langle a,c,b,d \rangle^{80}, \langle a,b,c,d \rangle^{2}, \langle a,c,d \rangle^{40}, \langle a,d \rangle^{1}]\]
 use the Inductive Miner algorithm to discover a process model from the event log.
+\end{exercise}
