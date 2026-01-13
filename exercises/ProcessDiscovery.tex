@@ -8,7 +8,73 @@ build the process model using the Alpha Miner algorithm.
 \end{exercise}
 \paragraph{Solution}
 \begin{enumerate}
-    \item 
+    \item First, we need to compute the footprint matrix.
+    We build a matrix, with all activities in the log as both rows and columns.
+    Each cell \((x,y)\) will contain the relation between activity \(x\) and activity \(y\):
+    \begin{itemize}
+        \item \(\rightarrow\) if \(y\) directly follows \(x\) in some trace, but not vice versa;
+        \item \(||\) if both \(x\) and \(y\) directly follow each other in some traces.
+        \item \(\#\) if there is no direct relation between \(x\) and \(y\).
+    \end{itemize}
+    The table is symmetric along the diagonal, so we only need to compute one half of it:
+    \begin{table}[H]
+    \centering
+    \begin{tabular}{c|ccccc}
+        & A & B & C & D & E \\
+        \hline
+        A & $\#$ & $\rightarrow$ & $\rightarrow$ & $\#$ & $\rightarrow$ \\
+        B &  & $\#$ & $||$ & $\rightarrow$ & $\#$ \\
+        C &  &  & $\#$ & $\rightarrow$ & $\#$ \\
+        D &  &  &  & $\#$ & $\leftarrow$ \\
+        E &  &  &  &  & $\#$ \\
+    \end{tabular}
+    \caption{Footprint Matrix for the Event Log \(L_1\)}
+\end{table}
+    \item Next, we identify the sets of all transitions $T_L$, the set of start activities $T_I$ and the set of end activities $T_O$:
+    \begin{itemize}
+        \item $T_L = \{a,b,c,d,e\}$, always corresponds to the rows/columns of the footprint matrix;
+        \item $T_I = \{a\}$, since every trace starts with activity \(a\);
+        \item $T_O = \{d\}$, since every trace ends with activity \(d\).
+    \end{itemize}
+    \item Then, we identify the pairs of sets of transitions that satisfy the Alpha Miner conditions.
+    To find the first pairs, we look for causality relations in the footprint matrix:
+    \[\{
+        (\{a\}, \{b\}),\\
+        (\{a\}, \{c\}),\\
+        (\{a\}, \{e\}),\\
+        (\{b\}, \{d\}),\\
+        (\{c\}, \{d\}),\\
+        (\{e\}, \{d\})
+    \}\]
+    \item We can then group these pairs into maximal sets. For example, since we have both \((\{a\}, \{b\})\) and \((\{a\}, \{e\})\),
+    and there is no causality relation between \(b\) and \(e\), we can group them into \((\{a\}, \{b,e\})\).
+    Continuing this process, we obtain:
+    \[\{
+        (\{a\}, \{b,e\}),\\
+        (\{a\}, \{c,e\}),\\
+        (\{b,e\}, \{d\}),\\
+        (\{c,e\}, \{d\})
+    \}\]
+    We can then remove the non-maximal pairs used to compose them, resulting in:
+    \[\{
+        (\{a\}, \{b,e\}),\\
+        (\{a\}, \{c,e\}),\\
+        (\{b,e\}, \{d\}),\\
+        (\{c,e\}, \{d\})
+    \}\]
+    \item Finally, we can construct the Workflow net:
+    \begin{itemize}
+        \item We create a place \(p_i\) as the input place, and connect it to all activities in \(T_I\);
+        \item We create a place \(p_o\) as the output place, and connect all activities in \(T_O\) to it;
+        \item We create one place for each of the identified maximum sets and connect them to the activities, 
+        according to the causality relations:
+    \end{itemize}
+    The resulting Petri net is the following:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{../images/exercises/alpha_miner-1.png}
+        \caption{Petri Net Discovered using the Alpha Miner}
+    \end{figure}
 \end{enumerate}
 
 \begin{exercise}{2}
@@ -42,7 +108,6 @@ Use the Alpha Miner algorithm to discover a Petri net from the event log.
         \item $T_O = \{g\}$
     \end{itemize}
     \item Then, we identify the pairs of sets of transitions that satisfy the Alpha Miner conditions.
-    To find the first pairs, we look for causality relations in the footprint matrix:
     \[
     \{
         (\{a\}, \{b\}),\\
@@ -55,20 +120,15 @@ Use the Alpha Miner algorithm to discover a Petri net from the event log.
         (\{e\}, \{g\})
     \}
     \]
-    \item We can then group these pairs into maximal sets:
+    \item We can then group these pairs into maximal sets and remove the non-maximal ones used to compose them.
     \[
     \{
         (\{a,f\}, \{b\}),\\
-        (\{e\}, \{f,g\})
-    \}
-    \]
-    And we can remove the non-maximal sets that composed them:
-    \[
-    \{
-        (\{a\}, \{b\}),\\
-        (\{f\}, \{b\}),\\
-        (\{e\}, \{f\}),\\
-        (\{e\}, \{g\})
+        (\{e\}, \{f,g\}), \\
+        (\{b\}, \{c\}),\\
+        (\{b\}, \{d\}),\\
+        (\{c\}, \{e\}),\\
+        (\{d\}, \{e\}),\\
     \}
     \]
     \item Finally, we can construct the Workflow net, using one place for each of the identified pairs, and connecting them according to the causality relations:
