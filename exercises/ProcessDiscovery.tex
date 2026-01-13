@@ -234,6 +234,43 @@ Compute:
     \item The dependency graph with a threshold of 0.9 and a threshold for direct succession of 1.
 \end{itemize}
 \end{exercise}
+\paragraph{Solution:}
+\begin{enumerate}
+    \item First, we compute the frequency matrix:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{c|cccc}
+            & A & B & C & D \\
+            \hline
+            A & 0 & 102 & 120 & 1 \\
+            B & 0 & 0 & 2 & 180 \\
+            C & 0 & 80 & 0 & 42 \\
+            D & 0 & 0 & 0 & 0 \\
+        \end{tabular}
+        \caption{Frequency Matrix for the Event Log \(L_3\)}
+    \end{table}
+    \item Next, we compute the dependency measure matrix:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{c|cccc}
+            & A & B & C & D \\
+            \hline
+            A & 0 & $\frac{102}{103}$ & $\frac{120}{121}$ & $\frac{1}{2}$ \\
+            B & - & 0 & $\frac{-78}{83}$ & $\frac{180}{181}$ \\
+            C & - & - & 0 & $\frac{42}{43}$ \\
+            D & - & - & - & 0 \\
+        \end{tabular}
+        \caption{Dependency measure Matrix for the Event Log \(L_3\)}
+    \end{table}
+    The lower triangle can be derived from the upper triangle by swapping signs.
+    \item Finally, we can build the dependency graph, using the given thresholds.
+    The resulting graph is the following:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.4\textwidth]{../images/exercises/Heuristic_Miner-3.png}
+        \caption{Dependency Graph for the Event Log \(L_3\)}
+    \end{figure}
+\end{enumerate}
 
 \subsection{Region Based Miner}
 
@@ -254,7 +291,7 @@ Construct a transition system applying the \textit{past with multiset abstractio
     Continuing this process for all traces, we obtain the following transition system:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{../images/exercises/region_miner_1.png}
+        \includegraphics[width=0.7\textwidth]{../images/exercises/region_miner-1.png}
         \caption{Transition System using Past with Multiset Abstraction}
     \end{figure}
 \end{enumerate}
@@ -267,7 +304,7 @@ Given the previous transition system, compute the resulting Petri net.
     \item We identify the minimal, non-trivial regions in the transition system. In this case, we have:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{../images/exercises/region_miner_2.png}
+        \includegraphics[width=0.7\textwidth]{../images/exercises/region_miner-2_1.png}
         \caption{Identified Regions from the Transition System}
     \end{figure}
     \item We then create a place for each region. 
@@ -275,7 +312,7 @@ Given the previous transition system, compute the resulting Petri net.
     This results in the following Petri net:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{../images/exercises/region_miner_2-1.png}
+        \includegraphics[width=0.7\textwidth]{../images/exercises/region_miner-2_2.png}
         \caption{Petri Net Derived from the Transition System}
     \end{figure}
 \end{enumerate}
@@ -286,6 +323,34 @@ Given the following event log:
 build the process model using the Region Based Miner algorithm with \textit{past with set abstraction}.
 \end{exercise}
 \paragraph{Solution:}
+\begin{enumerate}
+    \item First, we create the transition system using past with set abstraction:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{../images/exercises/region_miner-3_1.png}
+        \caption{Transition System using Past with Set Abstraction}
+    \end{figure}
+    \item Next, we identify the minimal, non-trivial regions in the transition system:
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.6\textwidth]{../images/exercises/region_miner-3_2.png}
+        \caption{Identified Regions from the Transition System}
+    \end{figure}
+    We have the following regions:
+    \begin{itemize}
+        \item \textbf{P1}: $A$ enters, $B,E$ leaves;
+        \item \textbf{P2}: $B,E$ enter, $D$ leaves;
+        \item \textbf{P3}: $C,E$ enter, $D$ leaves;
+        \item \textbf{P4}: $A$ enters, $C,E$ leaves.
+    \end{itemize}
+    \item Finally, we create a place for each region and connect them to the transitions according to the entering and leaving activities.
+    We also add the input and output places. The resulting Petri net is the following:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{../images/exercises/region_miner-3_3.png}
+        \caption{Petri Net Discovered using the Region Based Miner}
+    \end{figure}
+\end{enumerate}
 
 \begin{exercise}{4}
 Given the following event log:
