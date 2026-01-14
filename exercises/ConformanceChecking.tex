@@ -51,7 +51,9 @@ Given the following event log:
     \item Use replay-based conformance checking to compute the fitness of the event log with respect to the Petri net.
 \end{enumerate}
 \end{exercise}
-\paragraph{Solution:}
+\begin{comment}
+    #TODO: add solution
+\end{comment}
 
 \begin{exercise}{3}
 Given the following Petri net and event log:
@@ -60,11 +62,44 @@ Given the following Petri net and event log:
     \includegraphics[width=0.4\textwidth]{../images/exercises/replay_based_3.png}
     \caption{Petri net for Exercise 3}
 \end{figure}
-\[L = [\langle a,c,d \rangle^{10}, \langle b,c,e \rangle^{10}], \langle a,c,e \rangle^{5}, \langle b,c,d \rangle^{5}, \langle d,c,a \rangle,\]
+\[L = [\langle a,c,d \rangle^{10}, \langle b,c,e \rangle^{10}, \langle a,c,e \rangle^{5}, \langle b,c,d \rangle^{5}, \langle d,c,a \rangle,\]
 \[\langle a,b,d \rangle, \langle d \rangle] \]
 Use replay-based conformance checking to compute the fitness of the event log with respect to the Petri net.
 \end{exercise}
 \paragraph{Solution:}
+\begin{enumerate}
+    \item Replay each unique trace, collecting its statistics:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            Trace & $(p)$ & $(c)$ & $(m)$ & $(r)$ \\
+            \hline
+            $\langle a,c,d \rangle$ & 5 & 5 & 0 & 0 \\
+            \hline
+            $\langle b,c,e \rangle$ & 5 & 5 & 0 & 0 \\
+            \hline
+            $\langle a,c,e \rangle$ & 5 & 5 & 1 & 1 \\
+            \hline
+            $\langle b,c,d \rangle$ & 5 & 5 & 1 & 1 \\
+            \hline
+            $\langle d,c,a \rangle$ & 5 & 5 & 3 & 3 \\
+            \hline
+            $\langle a,b,d \rangle$ & 6 & 5 & 2 & 3 \\
+            \hline
+            $\langle d \rangle$ & 2 & 3 & 2 & 1 \\
+            \hline
+        \end{tabular}
+    \end{table}
+    \item We can compute the log statistics weighted by the frequency of each trace in the event log:
+    \[ P_{total} = 10 \times 5 + 10 \times 5 + 5 \times 5 + 5 \times 5 + 1 \times 5 + 1 \times 6 + 1 \times 2 = 163\]
+    \[ C_{total} = 10 \times 5 + 10 \times 5 + 5 \times 5 + 5 \times 5 + 1 \times 5 + 1 \times 5 + 1 \times 3 = 163\]
+    \[ M_{total} = 5 \times 1 + 5 \times 1 + 1 \times 3 + 1 \times 2 + 1 \times 2 = 17\]
+    \[ R_{total} = 5 \times 1 + 5 \times 1 + 1 \times 3 + 1 \times 3 + 1 \times 1 = 17\]
+    \item Finally, we can compute the fitness of the event log:
+    \[ Fitness_{L} = \frac{1}{2} (1 - \frac{M_{total}}{C_{total}}) + \frac{1}{2} (1 - \frac{R_{total}}{P_{total}}) = \frac{1}{2} (1 - \frac{17}{163}) + \frac{1}{2} (1 - \frac{17}{163}) = \]
+    \[ = 1 - \frac{17}{163} = \frac{146}{163} \approx 0.89\]
+\end{enumerate}
 
 \begin{exercise}{4}
 Given the following Petri net and event log:
@@ -77,6 +112,29 @@ Given the following Petri net and event log:
 Compute the fitness of the event log with respect to the Petri net using replay-based conformance checking.
 \end{exercise}
 \paragraph{Solution:}
+\begin{enumerate}
+    \item Replay each unique trace, collecting its statistics:
+    \begin{table}
+        \centering
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            Trace & $(p)$ & $(c)$ & $(m)$ & $(r)$ \\
+            \hline
+            $\langle a,b,e,f,c,d \rangle$ & 9 & 9 & 2 & 2 \\
+            \hline
+            $\langle a,b,b,e,f,c,c,d \rangle$ & 11 & 11 & 2 & 2 \\
+            \hline
+        \end{tabular}
+    \end{table}
+    \item We can check that the equation $p + m = c + r$ holds for both traces, which verifies our calculations.
+    \item We can compute the log statistics weighted by the frequency of each trace in the event log:
+    \[ P_{total} = 10 \times 9 + 10 \times 11 = 200\]
+    \[ C_{total} = 10 \times 9 + 10 \times 11 = 200\]
+    \[ M_{total} = 10 \times 2 + 10 \times 2 = 40\]
+    \[ R_{total} = 10 \times 2 + 10 \times 2 = 40\]
+    \item Finally, we can compute the fitness of the event log. Since P and C are equal, we can simplify the formula:
+    \[ Fitness_{L} = 1 - \frac{M_{total}}{C_{total}} = 1 - \frac{40}{200} = \frac{160}{200} = 0.8\]
+\end{enumerate}
 
 \begin{exercise}{5}
 Given the following Petri net and trace:
@@ -89,7 +147,20 @@ Trace: $\langle a,b,b \rangle$
 Compute the number of produced, consumed, missing, and remaining tokens.
 \end{exercise}
 \paragraph{Solution:}
-
+\begin{enumerate}
+    \item We first produce a token in place $start$ ($p=1$);
+    \item We can then fire transition $a$, consuming the token from place $start$ and producing a token in $p_2$ ($c=1$, $p=2$);
+    \item We can then fire transition $b$, consuming the token from place $p_2$ and producing a token in $p_3$ ($c=2$, $p=3$);
+    \item To fire transition $b$ again, we need to add a missing token to place $p_2$ ($m=1$);
+    \item We can then fire transition $b$ again, consuming the token from place $p_2$ and producing a token in $p_3$ ($c=3$, $p=4$);
+    \item Since a token is missing in place $end$, we have one remaining token in place $p_3$ ($r=2$) and then we consume it ($c=4$).
+    Thus, we have:
+    \[ p = 4, c = 4, m = 2, r = 2\]
+    We can also check that the equation $p + m = c + r$ holds to verify our calculations: $4 + 2 = 4 + 2$.
+    \item Finally, we can compute the fitness of the trace:
+    \[ Fitness = \frac{1}{2}(1 - \frac{m}{c}) + \frac{1}{2} (1 - \frac{r}{p}) = \frac{1}{2}(1 - \frac{2}{4}) + \frac{1}{2} (1 - \frac{2}{4}) = \]
+    \[ = 1 - \frac{1}{2} = 0.5\]
+\end{enumerate}
 
 \subsection{Alignment-based Conformance Checking}
 \begin{exercise}{1}

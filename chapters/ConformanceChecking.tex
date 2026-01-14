@@ -9,12 +9,16 @@ During the replay, information about deviations are collected:
 \begin{itemize}
     \item \textbf{Produced Tokens $p$:} the count of tokens produced during the replay of a trace. In the beginning, a token will be produced for the source place.
     Each time a transition is fired, tokens will be produced for each output place of the transition;
-    \item \textbf{Consumed Tokens $c$:} the count of tokens consumed during the replay of a trace. At the end, a token will be consumed for the sink place.
+    \item \textbf{Consumed Tokens $c$:} the count of tokens consumed during the replay of a trace. At the end, a token will be consumed for the sink place (if not present, a token is artificially added).
     Each time a transition is fired, tokens will be consumed from each input place of the transition;
     \item \textbf{Missing Tokens $m$:} When an activity is executed in the event log, but the corresponding transition in the process model cannot be fired due to missing tokens,
     tokens are artificially added to enable the firing of the transition. Note that these tokens are not considered in the produced tokens count;
     \item \textbf{Remaining Tokens $r$:} After replaying a trace, the tokens that are left in the process model.
 \end{itemize}
+Always the following equation holds:
+\begin{equation}
+    p + m = c + r
+\end{equation}
 Using these statistics, we can define the fitness of a trace as follows:
 \begin{equation}
     \label{eq:fitness}

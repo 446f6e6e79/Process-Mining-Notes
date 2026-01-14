@@ -144,20 +144,21 @@ Given the following event log:
 \[L_4 = [\langle a,c,d \rangle^{45}, \langle b,c,d \rangle^{42}, \langle a,c,e \rangle^{38}, \langle b,c,e \rangle^{22}]\]
 build the process model using the Alpha Miner algorithm.
 \end{exercise}
-\paragraph{Solution}
-\begin{enumerate}
-    \item 
-\end{enumerate}
+\begin{comment}
+    #TODO: add solution
+\end{comment}
 
 \begin{exercise}{4}
 Consider the following event log:
 \[L = [\langle a,b,d \rangle^{100}, \langle a,c,b,d \rangle^{80}, \langle a,b,c,d \rangle^{2}, \langle a,c,d \rangle^{40}, \langle a,d \rangle^{1}]\]
 Use the Alpha Miner algorithm to discover a Petri net from the event log.
 \end{exercise}
-\paragraph{Solution:}
+\begin{comment}
+    #TODO: add solution
+\end{comment}
+
 
 \subsection{Heuristic Miner}
-
 \begin{exercise}{1}
 Given the following event log:
 \[L = [\langle a,e \rangle^5, \langle a,b,c,e \rangle^{10}, \langle a,c,b,e \rangle^{10}, \langle a,b,e \rangle^{1}, \langle a,c,e \rangle^{1},\]
@@ -223,6 +224,9 @@ Given the following event log:
 \[L_2 = \left[ \langle a,b,d,e \rangle^{80}, \langle a,d,b,e \rangle^{30}, \langle a,e \rangle^{2}, \langle a,b,c,d,e \rangle^{10} \right] \]
 use the Heuristic Miner algorithm to discover the dependency matrix from the event log and build the dependency graph with a threshold of 0.9.
 \end{exercise}
+\begin{comment}
+    #TODO: add solution
+\end{comment}
 
 \begin{exercise}{3}
 Given the following event log:
@@ -357,9 +361,11 @@ Given the following event log:
 \[L = [\langle a,b,d \rangle^{100}, \langle a,c,b,d \rangle^{80}, \langle a,b,c,d \rangle^{2}, \langle a,c,d \rangle^{40}, \langle a,d \rangle^{1}]\]
 Use the Region Based Miner algorithm with \textit{past with set abstraction} to discover a Petri Net.
 \end{exercise}
+\begin{comment}
+    #TODO: add solution
+\end{comment}
 
 \subsection{Inductive Miner}
-
 \begin{exercise}{1}
 Given the following event log:
 \[L = [\langle a,b,c,d \rangle^3,
@@ -373,15 +379,73 @@ Given the following event log:
 use the Inductive Miner algorithm to discover a process model from the event log.
 \end{exercise}
 \paragraph{Solution:}
+\begin{enumerate}
+    \item To begin, we first need to build the directly-follows graph (DFG) from the event log.
+    We create a node for each activity in the log, and add directed edges between nodes that directly follow each other in any trace.
+    For example if activity \(a\) is directly followed by activity \(b\) in some trace, we add a directed edge from node \(a\) to node \(b\).
+    The resulting DFG is the following:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{../images/exercises/inductive_miner-1_1.png}
+        \caption{Directly-Follows Graph for the Event Log \(L\)}
+    \end{figure}
+    \item Next, we analyze the DFG to identify the possible splits:
+    \begin{itemize}
+        \item An exclusive cut is clealy not prossible;
+        \item Two sequence cuts are possible: one between \(a\) and the rest of the activities, and another between \(d\) and the rest of the activities;
+        We end up with terminal nodes \(a\) and \(d\).
+    \end{itemize}
+    \item We can now analyze the subgraphs between the identified sequence cuts:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.25\textwidth]{../images/exercises/inductive_miner-1_2.png}
+        \caption{Subgraph between the Sequence Cuts}
+    \end{figure}
+    and the respectives traces:
+    \[L = [\langle b,c \rangle^3,
+    \langle c,b \rangle^4,
+    \langle b,c,e,f,b,c \rangle^2,
+    \langle c,b,e,f,b,c \rangle^2,\]
+    \[
+    \langle b,c,e,f,c,b \rangle,
+    \langle c,b,e,f,b,c,e,f,c,b \rangle 
+    \]
+    Analyzing the log, we can see that is probable to have a parallel cut between \(b,c\) and \(e,f\). 
+    All the other cuts are not possible. So, we apply the parallel cut, obtaining the following subgraphs:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.25\textwidth]{../images/exercises/inductive_miner-1_3.png}
+        \caption{Subgraphs after Applying the Parallel Cut}
+    \end{figure}
+    \item Finally, we can analyze each of the subgraphs:
+    \begin{itemize}
+        \item The first subgraph contains activity \(b\) and \(c\), interconnected.
+        This means we can do a parallel cut, obtaining two terminal nodes \(b\) and \(c\);
+        \item The second subgraph contains activity \(e\) and \(f\), connected in sequence.
+        We can apply a sequence cut, obtaining two terminal nodes \(e\) and \(f\).
+    \end{itemize}
+    \item We can now construct the process model by combining all the identified cuts and terminal nodes:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.4\textwidth]{../images/exercises/inductive_miner-1_4.png}
+        \caption{Process Model Discovered using the Inductive Miner}
+    \end{figure}
+\end{enumerate}
 
 \begin{exercise}{2}
 Given the following event log:
 \[L = [\langle a,c,d \rangle^{45}, \langle b,c,d \rangle^{42}, \langle a,c,e \rangle^{38}, \langle b,c,e \rangle^{22}]\]
 use the Inductive Miner algorithm to discover a process model from the event log.
 \end{exercise}
+\begin{comment}
+    #TODO: add solution
+\end{comment}
 
 \begin{exercise}{3}
 Given the following event log:
 \[L = [\langle a,b,d \rangle^{100}, \langle a,c,b,d \rangle^{80}, \langle a,b,c,d \rangle^{2}, \langle a,c,d \rangle^{40}, \langle a,d \rangle^{1}]\]
 use the Inductive Miner algorithm to discover a process model from the event log.
 \end{exercise}
+\begin{comment}
+    #TODO: add solution
+\end{comment}
