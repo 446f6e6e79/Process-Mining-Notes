@@ -1,0 +1,82 @@
+\section{Business Process Modelling}
+\begin{exercise}{1}
+Using only the base BPMN elements (activities, gateways and sequence flows), model the following process:
+\\\\An order-to-cash process is triggered by the receipt of a purchase order from a customer. 
+Upon receipt, the purchase order has to be checked against the stock to determine if the requested item(s) are available.
+Depending on stock availability thepurchase order may be confirmed or rejected.
+If the purchase order is rejected, the process completes.
+If the purchase order is confirmed, an invoice is emitted, and the goods requested are shipped.
+\end{exercise}
+\begin{comment}
+    #TODO: Insert solution BPMN diagram here
+    This was taken from lecture 2- half of document
+\end{comment}
+
+\begin{exercise}{2}
+Using only the base BPMN elements (activities, gateways and sequence flows), model the following process:
+\\\\Once a loan application has been approved, an
+acceptance pack is prepared and sent to the customer.
+The acceptance pack includes a repayment schedule,
+which the customer needs to agree upon. The payment
+documents are received back by the loan provider. The
+latter then verifies the repayment agreement: if the
+applicant disagreed with the repayment schedule, the
+loan provider cancels the application; if the applicant
+agreed, the loan provider approves the application. In
+either case, the loan completes with the loan provider
+notifying the applicant of the application status.
+\end{exercise}
+
+\begin{exercise}{3}
+Given the following process description, create a BPMN model that captures all the details:
+\\\\The clients of the IT helpdesk are employees of a company. A request may be an IT-
+related problem that a client has, or an access request (e.g., requesting rights to access
+an IT system). Requests need to be handled according to their type and their priority.
+A client makes a request to the help desk. The help desk staffed with “Level-1” support
+staff registers the request. Level-1 support staff typically are junior people with less than
+12 months experience, but are capable of resolving simple requests. When the Level-1
+employee knows how to resolve a request, she resolves it, notifies the resolution to the
+client and closes the simple request.
+When the Level-1 employee does not know how to resolve a request, the request is for-
+warded to a more experienced “Level-2” support staff. When a Level-2 employee receives
+a request, the request is evaluated, a resolution is developed and sent back to the Level-1
+employee. Eventually, the Level-1 employee forwards the resolution to the client who
+can test the resolution and notify the outcome to the IT helpdesk. The client notifies
+the outcome of the test to the Level-1 employee via e-mail. If the client states that the
+request is fixed, the request is closed successfully, and the process ends. If the request is
+not fixed, it is resent to Level-2 support for further action and goes through the process
+again. If, instead, after the client notification, no test outcome is received back for a
+month, the Level-1 employee closes the request for timeout and the process ends.
+\end{exercise}
+\begin{comment}
+    #TODO: Insert solution BPMN diagram here
+    This was taken from exam mockup
+\end{comment}
+
+\begin{exercise}{4}
+Given the following process description, create a BPMN model that captures all the details:
+\\\\After an expense report is received from an employee, the report is then reviewed for the approval. 
+If the amount is lower than 1000 euros, it is automatically approved. 
+If the amount is equal or higher than 1000 euros, then a manual check is required. 
+In case the report is not ok, it is rejected and the employee has to be notified via email. 
+In case it is fine, it is approved, the reimbursement is deposited to the employee’s bank account and the
+documentation properly archived in parallel.
+\end{exercise}
+\begin{comment}
+    #TODO: Insert solution BPMN diagram here
+    Taken from lesson 5 hands-on session
+\end{comment}
+
+\begin{exercise}{5}
+Given the following process description, create a BPMN model that captures all the details:
+\\\\When a new credit request from the customer is received by the credit assessor, the risk is assessed. 
+If the risk is above a threshold, an advanced risk assessment has to be carried out,
+otherwise a simple risk assessment will suffice. 
+Once the assessment has been completed, the customer is notified with the result of the assessment
+and meantime, the disbursement is organized.
+For simplicity we assume that the result of an assessment is always positive.
+\end{exercise}
+\begin{comment}
+    #TODO: Insert solution BPMN diagram here
+    Taken from lesson 6 petri nets
+\end{comment}

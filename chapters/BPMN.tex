@@ -7,7 +7,7 @@ BPMN is a graphical representation for specifying business processes in a busine
 The core elements of BPMN can be categorized into four main groups:
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../images/bpmn/core.png}
+    \includegraphics[width=0.8\textwidth]{../images/chapters/bpmn/core.png}
     \caption{Core Elements of BPMN}
 \end{figure}
 \begin{enumerate}
@@ -26,11 +26,11 @@ The core elements of BPMN can be categorized into four main groups:
             \centering
             \begin{minipage}[t]{0.25\textwidth}
                 \centering
-                \includegraphics[width=\linewidth]{../images/bpmn/XORsplit.png}
+                \includegraphics[width=\linewidth]{../images/chapters/bpmn/XORsplit.png}
             \end{minipage}\hfill
             \begin{minipage}[t]{0.25\textwidth}
                 \centering
-                \includegraphics[width=\linewidth]{../images/bpmn/XORjoin.png}
+                \includegraphics[width=\linewidth]{../images/chapters/bpmn/XORjoin.png}
             \end{minipage}\hfill
             \caption{XOR-split and XOR-join Gateways}
         \end{figure}
@@ -40,11 +40,11 @@ The core elements of BPMN can be categorized into four main groups:
             \centering
             \begin{minipage}[t]{0.25\textwidth}
                 \centering
-                \includegraphics[width=\linewidth]{../images/bpmn/ANDsplit.png}
+                \includegraphics[width=\linewidth]{../images/chapters/bpmn/ANDsplit.png}
             \end{minipage}\hfill
             \begin{minipage}[t]{0.25\textwidth}
                 \centering
-                \includegraphics[width=\linewidth]{../images/bpmn/ANDjoin.png}
+                \includegraphics[width=\linewidth]{../images/chapters/bpmn/ANDjoin.png}
             \end{minipage}
             \caption{AND-split and AND-join Gateways}
         \end{figure}
@@ -54,11 +54,11 @@ The core elements of BPMN can be categorized into four main groups:
             \centering
             \begin{minipage}[t]{0.25\textwidth}
                 \centering
-                \includegraphics[width=\linewidth]{../images/bpmn/ORsplit.png}
+                \includegraphics[width=\linewidth]{../images/chapters/bpmn/ORsplit.png}
             \end{minipage}\hfill
             \begin{minipage}[t]{0.25\textwidth}
                 \centering
-                \includegraphics[width=\linewidth]{../images/bpmn/ORjoin.png}
+                \includegraphics[width=\linewidth]{../images/chapters/bpmn/ORjoin.png}
             \end{minipage}
             \caption{OR-split and OR-join Gateways}
         \end{figure}
@@ -81,7 +81,7 @@ All occurrences of a Data Object represent the same underlying data.
 \\\\It's important to note that \textbf{input data objects} represent a blocking condition for the activity to start (the activity cannot start until the input data object is available).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{../images/bpmn/dataObject.png}
+    \includegraphics[width=0.4\textwidth]{../images/chapters/bpmn/dataObject.png}
     \caption{Data Object in BPMN}
 \end{figure}
 
@@ -89,7 +89,7 @@ All occurrences of a Data Object represent the same underlying data.
 A Data Store is a place containing data objects that is persistent beyond the lifetime of a process instance. 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{../images/bpmn/dataStore.png}
+    \includegraphics[width=0.4\textwidth]{../images/chapters/bpmn/dataStore.png}
     \caption{Data Store in BPMN}
 \end{figure}
 
@@ -98,7 +98,7 @@ A Text Annotation is used to add descriptive information to a BPMN diagram. It p
 Doesn't affect the process flow.
 \begin{figure}[H]   
     \centering
-    \includegraphics[width=0.4\textwidth]{../images/bpmn/textAnnotation.png}
+    \includegraphics[width=0.4\textwidth]{../images/chapters/bpmn/textAnnotation.png}
     \caption{Text Annotation in BPMN}
 \end{figure}
 
@@ -108,7 +108,7 @@ Doesn't affect the process flow.
 They can be seen as a resource subclass, within a pool.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{../images/bpmn/poolLane.png}
+    \includegraphics[width=0.6\textwidth]{../images/chapters/bpmn/poolLane.png}
     \caption{Pools and Lanes in BPMN}
 \end{figure}
 Activity that are placed within a lane indicates that it must be performed by the role or department represented by that lane.
@@ -123,7 +123,7 @@ A Message Flow can connect:
 \end{itemize}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{../images/bpmn/messageFlow.png}
+    \includegraphics[width=0.6\textwidth]{../images/chapters/bpmn/messageFlow.png}
     \caption{Message Flow in BPMN}
 \end{figure}
 These elements have some syntactic rules:
@@ -141,7 +141,7 @@ In BPMN, a sub-process is a compound activity that encapsulates a set of related
 It \textbf{requires} a \textbf{start event} and an end \textbf{event to define} its boundaries.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{../images/bpmn/subprocess.png}
+    \includegraphics[width=0.6\textwidth]{../images/chapters/bpmn/subprocess.png}
     \caption{Sub-process in BPMN}
 \end{figure}
 It can also delimit parts of the process that can be repeated or interrupted as a whole.
@@ -152,7 +152,7 @@ It can be used when we have a single entry and a single exit point for the repea
 Then the completion condition is explicitly defined with a \textbf{textual annotation} (\ref{bpmn:textannotation}).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{../images/bpmn/activityloop.png}
+    \includegraphics[width=0.4\textwidth]{../images/chapters/bpmn/activityloop.png}
     \caption{Activity Loop Marker in BPMN}
 \end{figure}    
 
@@ -161,7 +161,7 @@ The multi-instance marker indicates that an activity or sub-process can be execu
 Useful when the same activity need to be performed for multiple instances of a data object (e.g., processing multiple orders).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{../images/bpmn/multiinstance.png}
+    \includegraphics[width=0.4\textwidth]{../images/chapters/bpmn/multiinstance.png}
     \caption{Multi-instance Marker in BPMN}
 \end{figure}
 We can also use a textual annotation to specify the number of instances or the conditions for creating new instances.
@@ -171,11 +171,11 @@ Then we can use this notation also for pools and lanes to indicate that multiple
 Events in BPMN represent something instantaneous that happens during the execution of a process. They are classified as follows:
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../images/bpmn/eventtable1.png}
+    \includegraphics[width=0.8\textwidth]{../images/chapters/bpmn/eventtable1.png}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../images/bpmn/eventtable2.png}
+    \includegraphics[width=0.8\textwidth]{../images/chapters/bpmn/eventtable2.png}
 \end{figure}
 
 \paragraph{Untyped events:} they are the default events (start and end), already introduced in the core elements.
@@ -199,12 +199,12 @@ Sometimes, a decision point in a process is based on the occurrence of specific 
 It works similarly to an XOR gateway (only one branch can be taken), but instead of evaluating conditions on data, it waits for one of the specified events to occur before proceeding along the corresponding path.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.2\textwidth]{../images/bpmn/eventbasedxor.png}
+    \includegraphics[width=0.2\textwidth]{../images/chapters/bpmn/eventbasedxor.png}
     \caption{Event-based Gateway in BPMN}
 \end{figure}
 \begin{figure}[H]   
     \centering
-    \includegraphics[width=0.6\textwidth]{../images/bpmn/eventbasedexample.png}
+    \includegraphics[width=0.6\textwidth]{../images/chapters/bpmn/eventbasedexample.png}
     \caption{Example of Event-based Gateway in BPMN}
 \end{figure}
 
@@ -217,7 +217,7 @@ This can be done via the Terminate End Event, which immediately ends the process
 This causes the abortion of all ongoing activities and the termination of the process instance.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.2\textwidth]{../images/bpmn/abortion.png}
+    \includegraphics[width=0.2\textwidth]{../images/chapters/bpmn/abortion.png}
     \caption{Abortion of a Process Instance in BPMN}
 \end{figure}
 We can use more sophisticated exception handling mechanisms, in order to recover from exceptions and continue the process flow.
@@ -231,7 +231,7 @@ There
     \item \textbf{Internal boundary events}: something goes wrong inside an activity, whose execution must be interrupted. Handled with intermediate error events;
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.8\textwidth]{../images/bpmn/errorevent.png}
+        \includegraphics[width=0.8\textwidth]{../images/chapters/bpmn/errorevent.png}
         \caption{Internal Boundary Event in BPMN}
     \end{figure}
     \item \textbf{Timeout boundary events}: an activity takes too long to complete, and its execution must be interrupted. Handled with intermediate timer events.
@@ -239,7 +239,7 @@ There
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../images/bpmn/boundaryexample.png}
+    \includegraphics[width=0.8\textwidth]{../images/chapters/bpmn/boundaryexample.png}
     \caption{Example of Boundary Events in BPMN}
 \end{figure}
 
@@ -248,7 +248,7 @@ Sometimes, we want to handle exceptions without interrupting the normal flow of 
 When a non-interrupting boundary event is triggered, the exception handling flow is initiated, but the normal flow of the process continues concurrently.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.2\textwidth]{../images/bpmn/non_interrupting.png}
+    \includegraphics[width=0.2\textwidth]{../images/chapters/bpmn/non_interrupting.png}
     \caption{Non-interrupting Boundary Event in BPMN}
 \end{figure}
 
@@ -257,6 +257,6 @@ Compensation events are used to handle situations where an activity needs to be 
 A compensation event is typically associated with a specific activity or sub-process, and it defines the actions that need to be taken to reverse or mitigate the effects of that activity.
 \begin{figure}[H]
     \centering  
-    \includegraphics[width=0.6\textwidth]{../images/bpmn/compensation.png}
+    \includegraphics[width=0.6\textwidth]{../images/chapters/bpmn/compensation.png}
     \caption{Compensation Event in BPMN}
 \end{figure}

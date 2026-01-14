@@ -51,9 +51,68 @@ Given the following event log:
     \item Use replay-based conformance checking to compute the fitness of the event log with respect to the Petri net.
 \end{enumerate}
 \end{exercise}
-\begin{comment}
-    #TODO: add solution
-\end{comment}
+\paragraph{Solution:}
+\begin{enumerate}
+    \item First, we need to construct the Petri net using the Alpha Miner algorithm:
+    \begin{itemize}
+        \item Build the footprint matrix:
+        \begin{table}[H]
+            \centering
+            \begin{tabular}{c|cccccc}
+                & a & b & c & d & e & f \\
+                \hline
+                a & $\#$ & $\rightarrow$ & $\rightarrow$ & $\#$ & $\#$ & $\#$ \\
+                b &  & $\#$ & $\#$ & $\rightarrow$ & $\#$ & $\#$ \\
+                c &  &  & $\#$ & $\#$ & $\rightarrow$ & $\#$ \\
+                d &  &  &  & $\#$ & $||$ & $\rightarrow$ \\
+                e &  &  &  &  & $\#$ & $\rightarrow$ \\
+                f &  &  &  &  &  & $\#$ \\
+            \end{tabular}
+        \end{table}
+        \item Identify the sets of input and output transitions:
+        \[T = \{a,b,c,d,e,f\}\]
+        \[T_I = \{\{a\}\}\]
+        \[T_O = \{\{f\}\}\]
+        \item Identify the maximal pairs of sets of transitions:
+        \[\{
+            (\{a\}, \{b,c\}),
+            (\{b\}, \{d\}),
+            (\{c\}, \{e\}),
+            (\{d\}, \{f\}),
+            (\{e\}, \{f\})
+        \}\]
+        \item Construct the Petri net:
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.8\textwidth]{../images/exercises/replay_based-2_1.png}
+            \caption{Petri net for Exercise 2}
+        \end{figure}
+    \end{itemize}
+    \item Now, we can use replay-based conformance checking to compute the fitness of the event log with respect to the Petri net:
+    \begin{itemize}
+        \item Replay each unique trace, collecting its statistics:
+        \begin{table}
+            \centering
+            \begin{tabular}{|c|c|c|c|c|}
+                \hline
+                Trace & $(p)$ & $(c)$ & $(m)$ & $(r)$ \\
+                \hline
+                $\langle a,b,d,e,f \rangle$ & 6 & 7 & 1 & 0 \\
+                \hline
+                $\langle a,c,e,d,f \rangle$ & 6 & 7 & 1 & 0 \\
+                \hline
+            \end{tabular}
+        \end{table}
+        \item We can compute the log statistics weighted by the frequency of each trace in the event log:
+        \[P_{total} = 10 \times 6 + 10 \times 6 = 120\]
+        \[C_{total} = 10 \times 7 + 10 \times 7 = 140\]
+        \[M_{total} = 10 \times 1 + 10 \times 1 = 20\]
+        \[R_{total} = 0\]
+        \item Finally, we can compute the fitness of the event log:
+        \[ Fitness_{L} = \frac{1}{2} (1 - \frac{M_{total}}{C_{total}}) + \frac{1}{2} (1 - \frac{R_{total}}{P_{total}}) = \frac{1}{2} (1 - \frac{20}{140}) + \frac{1}{2} (1 - \frac{0}{120}) = \]
+        \[ = (\frac{1}{2} \frac{120}{140}) + (\frac{1}{2} 1) = \frac{3}{7} + \frac{1}{2} \approx 0.93\]
+    \end{itemize}
+\end{enumerate}
 
 \begin{exercise}{3}
 Given the following Petri net and event log:

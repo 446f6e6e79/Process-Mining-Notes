@@ -2,6 +2,7 @@
 Usually, in this type of exercises, you are given a process model, enriched with branching probabilities, along with
 a table containing the cycle time and processing time measures for each activity.
 \subsection{Quantitative Analysis}
+
 \begin{exercise}{1}
 \begin{figure}[H]
     \centering
@@ -52,6 +53,41 @@ Using the information provided, compute the following:
     \item Finally, we can compute the Cycle Time Efficiency as:
     \[CTE = \frac{PT}{CT} = \frac{25.9 \text{ hours}}{20 \text{ days}} = \frac{25.9}{20 \times 8} = 16\%\]
 \end{enumerate}
+
+\begin{exercise}{2}
+Given the following process:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/exercises/q_a-2.png}
+    \caption{Example Process for Quantitative Analysis Exercise 2}
+\end{figure}
+and the following table:
+\begin{table}[H]
+    \centering
+    \resizebox{0.6\textwidth}{!}{%
+        \begin{tabular}{c|c|c}
+            \hline
+            \textbf{Activity} & \textbf{Cycle Time (CT)} & \textbf{Processing Time (PT)} \\
+            \hline
+            Decide shipment method      & 1 day    & 30 min    \\
+            Check extra insurance       & 6 days   & 14 hours  \\
+            Add stamps                  & 3.5 days & 6 hours   \\
+            Check postage fee           & 1 day    & 3 hours   \\
+            Request quotes from carriers& 6 days   & 30 min    \\
+            Assign a carrier            & 5 days   & 8.5 hours \\
+            Package goods               & 2 days   & 10 hours  \\
+            Add paperwork               & 3 days   & 4 hours   \\
+            \hline
+        \end{tabular}
+    }
+\end{table}
+Comput the Cycle Time Efficiency (CTE) of the process.
+\end{exercise}
+\begin{comment}
+    #TODO: Insert solution here
+    The solution can be found in lecture 6 petri nets
+\end{comment}
+
 \subsection{Work In Progress (WIP) Analysis}
 \begin{exercise}{1}
 Suppose that a fast food restaurant processes on average 1200 customers per day, between 10:00 and 22:00 (12 hours).
