@@ -71,12 +71,20 @@ It is important to follow naming conventions for clarity:
     \item \textbf{Activity}: Use verb + noun (e.g., "Approve Invoice").
     \item \textbf{Split Gateway}: Use descriptive labels with conditions(e.g., "Is Payment Approved?").
 \end{itemize}
-%#TODO: add rework loops?
+
+\subsubsection{Rework Loops}
+Rework loops are used to model situations where an activity may need to be repeated based on certain conditions.
+A rework loop is represented using:
+\begin{itemize}
+    \item A \textbf{XOR-JOIN gateway}: signals the entry point of the loop;
+    \item A \textbf{XOR-SPLIT gateway}: signals the exit point of the loop. 
+    It needs to specify both the condition to re-enter the loop and the condition to exit the loop.
+\end{itemize}
 
 \subsubsection{Data Objects}
 A \textbf{Data Object} captures an artifact required (input - the arrow pointing towards the activity) or produced (output - the arrow pointing away from the activity) by activities within a process.  
 The \textbf{status} of the business object can be denoted inside square brackets (e.g., [approved], [pending]).
-\\\\An \textbf{association link} (dashed line) is used to connect data objects to activities or events of business processes.
+\\\\An \textbf{association link} (dashed line with open arrowheads) is used to connect data objects to activities or events of business processes.
 All occurrences of a Data Object represent the same underlying data.
 \\\\It's important to note that \textbf{input data objects} represent a blocking condition for the activity to start (the activity cannot start until the input data object is available).
 \begin{figure}[H]
