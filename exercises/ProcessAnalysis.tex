@@ -9,6 +9,42 @@ a table containing the cycle time and processing time measures for each activity
     \includegraphics[width=\textwidth]{images/exercises/proc_analysis/q_a-1.png}
     \caption{Example Process for Quantitative Analysis Exercises}
 \end{figure}
+and the following table:
+\begin{table}[H]
+    \centering
+    \resizebox{0.8\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|}
+            \hline
+            \textbf{Activity} & \textbf{Cycle Time (CT)} & \textbf{Processing Time (PT)} \\
+            \hline
+            Assign ministerial inquiry & 2 days & 30 min \\
+            Investigate ministerial inquiry & 8 days & 12 hours \\
+            Prepare ministerial response & 4 days & 4 hours \\
+            Review ministerial response & 4 days & 2 hours \\
+            \hline
+        \end{tabular}
+    }
+\end{table}
+Using the information provided, compute the CTE (Cycle Time Efficiency) of the process.
+\end{exercise}
+\paragraph{Solution:}
+To compute the CTE, we first need to compute the Cycle Time (CT) and Processing Time (PT) of the process.
+\[CT = 2 + 8 + \frac{4 + 4}{0.8} + 4 = 20 \text{ days}\]
+Remember that, if we have a structured loop with probability \(p\), the formula to compute the cycle time of that is:
+\[
+    \text{Cycle Time}_{\text{loop}} = \frac{\text{CT}_{\text{body}}}{p_{\text{exit}}}
+\]
+Similarly, we can compute the Processing Time (PT) using the same approach:
+\[PT = 0.5 + 12 + \frac{4 + 2}{0.8} = 20 \text{hours}\]
+Finally, we can compute the Cycle Time Efficiency (CTE) as:
+\[CTE = \frac{PT}{CT} = \frac{20}{20 \times 8} = \frac{20}{160} = 12.5\%\]
+
+\begin{exercise}{2}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/exercises/proc_analysis/q_a-2.png}
+    \caption{Example Process for Quantitative Analysis Exercises}
+\end{figure}
 \begin{itemize}
     \item 20\% of the orders are rejected for product not in stock;
     \item 10\% of the orders have an incorrect invoice;
@@ -54,18 +90,18 @@ Using the information provided, compute the following:
     \[CTE = \frac{PT}{CT} = \frac{25.9 \text{ hours}}{20 \text{ days}} = \frac{25.9}{20 \times 8} = 16\%\]
 \end{enumerate}
 
-\begin{exercise}{2}
+\begin{exercise}{3}
 Given the following process:
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{images/exercises/proc_analysis/q_a-2.png}
+    \includegraphics[width=0.8\textwidth]{images/exercises/proc_analysis/q_a-3.png}
     \caption{Example Process for Quantitative Analysis Exercise 2}
 \end{figure}
 and the following table:
 \begin{table}[H]
     \centering
     \resizebox{0.6\textwidth}{!}{%
-        \begin{tabular}{c|c|c}
+        \begin{tabular}{|c|c|c|}
             \hline
             \textbf{Activity} & \textbf{Cycle Time (CT)} & \textbf{Processing Time (PT)} \\
             \hline
@@ -83,10 +119,15 @@ and the following table:
 \end{table}
 Comput the Cycle Time Efficiency (CTE) of the process.
 \end{exercise}
-\begin{comment}
-    #TODO: Insert solution here
-    The solution can be found in lecture 6 petri nets
-\end{comment}
+\paragraph{Solution:}
+The Cycle Time (CT) can be computed as:
+\[CT = \max\left(2, \left[1 + 0.7 \times \left(6 + \frac{3.5 + 1}{0.9} \right) + 0.3 \times \left(6 + 5 \right) \right] \right) + 3\]  
+\[ = 1 + 0.7 \times (11) + 0.3 \times 11 + 3 = 1 + 7.7 + 3.3 + 3 = 15 \text{ days}\]
+Similarly, the Processing Time (PT) can be computed as:
+\[CT = \max\left(10, \left[0.5 + 0.7 \times \left(14 + \frac{6 + 13}{0.9} \right) + 0.3 \times \left(0.5 + 8.5 \right) \right] \right) + 4\]
+\[ = 24 \text{ hours}\]
+Finally, we can compute the Cycle Time Efficiency (CTE) as:
+\[CTE = \frac{PT}{CT} = \frac{24}{15 \times 8} = \frac{24}{120} = 20\%\]  
 
 \subsection{Work In Progress (WIP) Analysis}
 \begin{exercise}{1}

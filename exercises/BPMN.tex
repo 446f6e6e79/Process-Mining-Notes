@@ -169,6 +169,33 @@ The solution here is as follows:
 
 \begin{exercise}{6}
 Given the following process description, create a BPMN model that captures all the details:
+\\\\In the context of a claim handling process, it is sometimes necessary to 
+send a questionnaire to the claimant to gather additional information.
+The claimant is expected to return the questionnaire within five days. 
+If no response is received after five days, a reminder is sent to the claimant. 
+If after another five days there is still no response, another reminder is sent 
+and so on until the completed questionnaire is received.
+Once the questionnaire is received, it is assessed.
+\end{exercise}
+\paragraph{Solution:}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../images/exercises/bpmn/bpmn-6.png}
+    \caption{Solution for Exercise 6}
+\end{figure}
+The notable aspect of this solution are:
+\begin{itemize}
+    \item The use of a block structued loop to allow any number of reminders to be sent until the questionnaire is received;
+    \item The use of an event-based gateway to model the waiting for either receive the questionnaire or the timeout of five days.
+    In particular:
+    \begin{itemize}
+        \item The intermediate timer event models the timeout of five days;
+        \item The intermediate message receive event models the reception of the completed questionnaire;
+    \end{itemize}
+\end{itemize}
+
+\begin{exercise}{7}
+Given the following process description, create a BPMN model that captures all the details:
 \\\\The clients of the IT helpdesk are employees of a company. A request may be an IT-
 related problem that a client has, or an access request (e.g., requesting rights to access
 an IT system). Requests need to be handled according to their type and their priority.
@@ -188,12 +215,27 @@ not fixed, it is resent to Level-2 support for further action and goes through t
 again. If, instead, after the client notification, no test outcome is received back for a
 month, the Level-1 employee closes the request for timeout and the process ends.
 \end{exercise}
-\begin{comment}
-    #TODO: Insert solution BPMN diagram here
-    This was taken from exam mockup
-\end{comment}
+\paragraph{Solution:}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../images/exercises/bpmn/bpmn-7.png}
+    \caption{Solution for Exercise 7}
+\end{figure}
+The important aspects of this solution are:
+\begin{itemize}
+    \item The process is modelled using 2 pools: the \textbf{Client} pool and the \textbf{IT Helpdesk} pool, 
+    with two lanes: \textbf{Level-1 support} and \textbf{Level-2 support};
+    \item The internal forwards of the request between Level-1 and Level-2 can be modelled using simple sequence flows;
+    \item After forwarding the resolution to the client, the Level-1 support waits for an avent to happen:
+    \begin{itemize}
+        \item Either the client notifies that the request is fixed (intermediate message event);
+        \item Or a timeout of one month occurs (intermediate timer event).
+    \end{itemize}
+    This is modelled using an event-based gateway, with the two intermediate events as outgoing branches;
+    \item Before the evaluation of the request by Level-2 support, a XOR JOIN gateway is used, to allow repetition of the process.
+\end{itemize}
 
-\begin{exercise}{7}
+\begin{exercise}{8}
 Given the following process description, create a BPMN model that captures all the details:
 \\\\After an expense report is received from an employee, the report is then reviewed for the approval. 
 If the amount is lower than 1000 euros, it is automatically approved. 
@@ -207,16 +249,43 @@ documentation properly archived in parallel.
     Taken from lesson 5 hands-on session
 \end{comment}
 
-\begin{exercise}{8}
+\begin{exercise}{9}
 Given the following process description, create a BPMN model that captures all the details:
-\\\\When a new credit request from the customer is received by the credit assessor, the risk is assessed. 
+\\\\When a new credit request from the customer is received by the credit assessor, the risk level is checked. 
 If the risk is above a threshold, an advanced risk assessment has to be carried out,
 otherwise a simple risk assessment will suffice. 
 Once the assessment has been completed, the customer is notified with the result of the assessment
 and meantime, the disbursement is organized.
 For simplicity we assume that the result of an assessment is always positive.
 \end{exercise}
-\begin{comment}
-    #TODO: Insert solution BPMN diagram here
-    Taken from lesson 6 petri nets
-\end{comment}
+\paragraph{Solution:}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../images/exercises/bpmn/bpmn-9.png}
+    \caption{Solution for Exercise 9}
+\end{figure}
+The important aspects of this solution are:
+\begin{itemize}
+    \item Since the text of the request mention both the customer and the credit assessor, we model them as two separate pools;
+    \item A process instance starts with the receipt of a new credit request by the credit assessor (start message event). 
+    We also need to model the message flow from the customer the start event;
+    \item Since it's mentioned that the customer notification and the disbursement organization happen in parallel, we use an AND split gateway to model this;
+    \item \textbf{OPTIONALLY}, we can add the data objects (credit request and assessment result) to the model to improve its understandability.
+\end{itemize}
+
+\begin{exercise}{10}
+Given the following process description, create a BPMN model that captures all the details:
+\\\\When a claim is received, it is registered. After registration, the
+claim is classified leading to two possible outcomes: simple or
+complex. If the claim is simple, the policy is checked. For complex
+claims, both the policy and the damage are checked
+independently.
+A possible outcome of the policy check is that the insurance is
+invalid. In this case, any processing is cancelled and a letter is sent
+to the customer. In the case of a complex claim, this implies that
+the damage checking is cancelled if it has not yet been
+completed.
+If, instead, the insurance is valid, an assessment is performed and,
+in case of positive outcome the financial office is notified. Both in
+case of positive and negative outcome, the customer is notified.
+\end{exercise}

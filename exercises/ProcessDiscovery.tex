@@ -144,9 +144,45 @@ Given the following event log:
 \[L_4 = [\langle a,c,d \rangle^{45}, \langle b,c,d \rangle^{42}, \langle a,c,e \rangle^{38}, \langle b,c,e \rangle^{22}]\]
 build the process model using the Alpha Miner algorithm.
 \end{exercise}
-\begin{comment}
-    #TODO: add solution
-\end{comment}
+\paragraph{Solution:}
+\begin{enumerate}
+    \item First, we need to compute the footprint matrix:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{c|ccccc}
+            & A & B & C & D & E \\
+            \hline
+            A & $\#$ & $\#$ & $\rightarrow$ & $\#$ & $\#$ \\
+            B &  & $\#$ & $\rightarrow$ & $\#$ & $\#$ \\
+            C &  &  & $\#$ & $\rightarrow$ & $\rightarrow$ \\
+            D &  &  &  & $\#$ & $\#$ \\
+            E &  &  &  &  & $\#$ \\
+        \end{tabular}
+        \caption{Footprint Matrix for the Event Log \(L\)}
+    \end{table}
+    \item Identify the sets:
+    \[T_L = \{a,b,c,d,e\}\]
+    \[T_I = \{a,b\}\]
+    \[T_O = \{e,d\}\]
+    \item Identify the maximal pairs:
+    \[\{
+        (\{a\}, \{c\}),\\
+        (\{b\}, \{c\}),\\
+        (\{c\}, \{d\}),\\
+        (\{c\}, \{e\})
+    \}\]
+    \[\{
+        (\{a,b\}, \{c\}),\\
+        (\{c\}, \{d,e\})
+    \}
+    \]
+    \item Finally, we can construct the Workflow net:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{../images/exercises/proc_discovery/alpha_miner-3.png}
+        \caption{Petri Net Discovered using the Alpha Miner}
+    \end{figure}
+\end{enumerate}
 
 \begin{exercise}{4}
 Consider the following event log:
@@ -224,9 +260,44 @@ Given the following event log:
 \[L_2 = \left[ \langle a,b,d,e \rangle^{80}, \langle a,d,b,e \rangle^{30}, \langle a,e \rangle^{2}, \langle a,b,c,d,e \rangle^{10} \right] \]
 use the Heuristic Miner algorithm to discover the dependency matrix from the event log and build the dependency graph with a threshold of 0.9.
 \end{exercise}
-\begin{comment}
-    #TODO: add solution
-\end{comment}
+\paragraph{Solution:}
+\begin{enumerate}
+    \item First, we compute the frequency matrix:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{c|ccccc}
+            & A & B & C & D & E \\
+            \hline
+            A & 0 & 90 & 0 & 30 & 2 \\
+            B & 0 & 0 & 10 & 80 & 30 \\
+            C & 0 & 0 & 0 & 10 & 0 \\
+            D & 0 & 30 & 0 & 0 & 90 \\
+            E & 0 & 0 & 0 & 0 & 0 \\
+        \end{tabular}
+        \caption{Frequency Matrix for the Event Log \(L_2\)}
+    \end{table}
+    \item Next, we compute the dependency measure matrix:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{c|ccccc}
+            & A & B & C & D & E \\
+            \hline
+            A & 0 & $\frac{90}{91}$ & 0 & $\frac{30}{31}$ & $\frac{2}{3}$ \\
+            B &  & 0 & $\frac{10}{11}$ & $\frac{50}{111}$ & $\frac{30}{31}$ \\
+            C &  &  & 0 & $\frac{10}{11}$ & 0 \\
+            D &  &  &  & 0 & $\frac{90}{91}$ \\
+            E &  &  &  &  & 0 \\
+        \end{tabular}
+        \caption{Dependency measure Matrix for the Event Log \(L_2\)}   
+    \end{table}
+    \item Finally, we can build the dependency graph, using the given threshold.
+    The resulting graph is the following:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.37\textwidth]{../images/exercises/proc_discovery/heuristic_miner-2.png}
+        \caption{Dependency Graph for the Event Log \(L_2\)}
+    \end{figure}
+\end{enumerate}
 
 \begin{exercise}{3}
 Given the following event log:
