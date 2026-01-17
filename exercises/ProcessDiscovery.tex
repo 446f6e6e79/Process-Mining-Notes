@@ -72,7 +72,7 @@ build the process model using the Alpha Miner algorithm.
     The resulting Petri net is the following:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{../images/exercises/alpha_miner-1.png}
+        \includegraphics[width=0.7\textwidth]{../images/exercises/proc_discovery/alpha_miner-1.png}
         \caption{Petri Net Discovered using the Alpha Miner}
     \end{figure}
 \end{enumerate}
@@ -134,7 +134,7 @@ Use the Alpha Miner algorithm to discover a Petri net from the event log.
     \item Finally, we can construct the Workflow net, using one place for each of the identified pairs, and connecting them according to the causality relations:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{../images/exercises/alpha_miner.png}
+        \includegraphics[width=0.7\textwidth]{../images/exercises/proc_discovery/alpha_miner.png}
         \caption{Petri Net Discovered using the Alpha Miner}
     \end{figure}
 \end{enumerate}
@@ -214,7 +214,7 @@ use the Heuristic Miner algorithm to discover a process model from the event log
     We create a node for each activity in the log, and add the directed edges for each pair of activities whose dependency measure is above the threshold:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{../images/exercises/heuristic_miner_1.png}
+        \includegraphics[width=0.7\textwidth]{../images/exercises/proc_discovery/heuristic_miner_1.png}
         \caption{Dependency Graph for the Event Log \(L\)}
     \end{figure}
 \end{enumerate}
@@ -271,7 +271,7 @@ Compute:
     The resulting graph is the following:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.4\textwidth]{../images/exercises/Heuristic_Miner-3.png}
+        \includegraphics[width=0.4\textwidth]{../images/exercises/proc_discovery/Heuristic_Miner-3.png}
         \caption{Dependency Graph for the Event Log \(L_3\)}
     \end{figure}
 \end{enumerate}
@@ -295,7 +295,7 @@ Construct a transition system applying the \textit{past with multiset abstractio
     Continuing this process for all traces, we obtain the following transition system:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{../images/exercises/region_miner-1.png}
+        \includegraphics[width=0.7\textwidth]{../images/exercises/proc_discovery/region_miner-1.png}
         \caption{Transition System using Past with Multiset Abstraction}
     \end{figure}
 \end{enumerate}
@@ -308,7 +308,7 @@ Given the previous transition system, compute the resulting Petri net.
     \item We identify the minimal, non-trivial regions in the transition system. In this case, we have:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{../images/exercises/region_miner-2_1.png}
+        \includegraphics[width=0.7\textwidth]{../images/exercises/proc_discovery/region_miner-2_1.png}
         \caption{Identified Regions from the Transition System}
     \end{figure}
     \item We then create a place for each region. 
@@ -316,7 +316,7 @@ Given the previous transition system, compute the resulting Petri net.
     This results in the following Petri net:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{../images/exercises/region_miner-2_2.png}
+        \includegraphics[width=0.7\textwidth]{../images/exercises/proc_discovery/region_miner-2_2.png}
         \caption{Petri Net Derived from the Transition System}
     \end{figure}
 \end{enumerate}
@@ -331,13 +331,13 @@ build the process model using the Region Based Miner algorithm with \textit{past
     \item First, we create the transition system using past with set abstraction:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\textwidth]{../images/exercises/region_miner-3_1.png}
+        \includegraphics[width=0.6\textwidth]{../images/exercises/proc_discovery/region_miner-3_1.png}
         \caption{Transition System using Past with Set Abstraction}
     \end{figure}
     \item Next, we identify the minimal, non-trivial regions in the transition system:
     \begin{figure}
         \centering
-        \includegraphics[width=0.6\textwidth]{../images/exercises/region_miner-3_2.png}
+        \includegraphics[width=0.6\textwidth]{../images/exercises/proc_discovery/region_miner-3_2.png}
         \caption{Identified Regions from the Transition System}
     \end{figure}
     We have the following regions:
@@ -351,7 +351,7 @@ build the process model using the Region Based Miner algorithm with \textit{past
     We also add the input and output places. The resulting Petri net is the following:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{../images/exercises/region_miner-3_3.png}
+        \includegraphics[width=0.7\textwidth]{../images/exercises/proc_discovery/region_miner-3_3.png}
         \caption{Petri Net Discovered using the Region Based Miner}
     \end{figure}
 \end{enumerate}
@@ -386,7 +386,7 @@ use the Inductive Miner algorithm to discover a process model from the event log
     The resulting DFG is the following:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\textwidth]{../images/exercises/inductive_miner-1_1.png}
+        \includegraphics[width=0.5\textwidth]{../images/exercises/proc_discovery/inductive_miner-1_1.png}
         \caption{Directly-Follows Graph for the Event Log \(L\)}
     \end{figure}
     \item Next, we analyze the DFG to identify the possible splits:
@@ -398,7 +398,7 @@ use the Inductive Miner algorithm to discover a process model from the event log
     \item We can now analyze the subgraphs between the identified sequence cuts:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.25\textwidth]{../images/exercises/inductive_miner-1_2.png}
+        \includegraphics[width=0.25\textwidth]{../images/exercises/proc_discovery/inductive_miner-1_2.png}
         \caption{Subgraph between the Sequence Cuts}
     \end{figure}
     and the respectives traces:
@@ -414,7 +414,7 @@ use the Inductive Miner algorithm to discover a process model from the event log
     All the other cuts are not possible. So, we apply the parallel cut, obtaining the following subgraphs:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.25\textwidth]{../images/exercises/inductive_miner-1_3.png}
+        \includegraphics[width=0.25\textwidth]{../images/exercises/proc_discovery/inductive_miner-1_3.png}
         \caption{Subgraphs after Applying the Parallel Cut}
     \end{figure}
     \item Finally, we can analyze each of the subgraphs:
@@ -427,7 +427,7 @@ use the Inductive Miner algorithm to discover a process model from the event log
     \item We can now construct the process model by combining all the identified cuts and terminal nodes:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.4\textwidth]{../images/exercises/inductive_miner-1_4.png}
+        \includegraphics[width=0.4\textwidth]{../images/exercises/proc_discovery/inductive_miner-1_4.png}
         \caption{Process Model Discovered using the Inductive Miner}
     \end{figure}
 \end{enumerate}
