@@ -148,6 +148,15 @@ We want to compute all the \textbf{minimal non-trivial regions} (i.e., the small
     \end{itemize}
     \item A token is added to each place corresponding to a region that contains the initial state of the transition system.
 \end{itemize}
+It's important to rember, when trying to find the regions, that:
+\begin{itemize}
+    \item If an event $e$ exits a region, all equally labeled events must exit the region. 
+    This implies that \textbf{all arcs} with the same label as $e$ must also exit the region;
+    \item If an event enters a region, all equally labeled events must enter the region.
+    All arcs with the same label as $e$ must also enter the region;
+    \item Events that do not enter or exit the region do not cross the region.
+    All arcs with the same label as $e$ must also not cross the region.
+\end{itemize}
 
 \subsubsection{Inductive Miner}
 The Inductive Miner is a divide-and-conquer algorithm for process discovery that constructs process models by recursively splitting the event log into smaller segments based on identified patterns.

@@ -91,5 +91,6 @@ The \textbf{worst-case} alignment can be easily calculated by performing a compl
 where $L(\sigma)$ is the frequency of $\sigma$ on the log $L$.
 Otherwise you can also use this formula, computing the fitness of each trace and then averaging it:
 \begin{equation}
-    fitness(L, N) = \frac{\sum_{\sigma \in L} L(\sigma) \times fitness(\sigma, N)}{\sum_{\sigma \in L} L(\sigma)}
+    fitness(L, N) = \frac{\sum_{\sigma \in L} L(\sigma) \times fitness(\sigma, N)}{|L|}
 \end{equation}
+Where $|L|$ is the total number of traces in the event log.

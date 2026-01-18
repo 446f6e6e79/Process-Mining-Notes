@@ -402,7 +402,7 @@ build the process model using the Region Based Miner algorithm with \textit{past
     \item First, we create the transition system using past with set abstraction:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\textwidth]{../images/exercises/proc_discovery/region_miner-3_1.png}
+        \includegraphics[width=0.4\textwidth]{../images/exercises/proc_discovery/region_miner-3_1.png}
         \caption{Transition System using Past with Set Abstraction}
     \end{figure}
     \item Next, we identify the minimal, non-trivial regions in the transition system:
@@ -432,9 +432,41 @@ Given the following event log:
 \[L = [\langle a,b,d \rangle^{100}, \langle a,c,b,d \rangle^{80}, \langle a,b,c,d \rangle^{2}, \langle a,c,d \rangle^{40}, \langle a,d \rangle^{1}]\]
 Use the Region Based Miner algorithm with \textit{past with set abstraction} to discover a Petri Net.
 \end{exercise}
-\begin{comment}
-    #TODO: add solution
-\end{comment}
+\paragraph{Solution:}
+\begin{enumerate}
+    \item We first create the transition system using past with set abstraction:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{../images/exercises/proc_discovery/region_miner-4_1.png}
+        \caption{Transition System using Past with Set Abstraction}
+    \end{figure}
+    \item Next, we identify the minimal, non-trivial regions in the transition system:
+    \begin{itemize}
+        \item First, we can easily identify the easier regions, corresponding to places \(p_i\) and \(p_o\):
+        \begin{itemize}
+            \item $P_I$: \(A\) leaves, nothing enters;
+            \item $P_O$: \(D\) enters, nothing leaves.
+        \end{itemize}
+        \item Then, we can identify the other regions, remembering that all equally labeled transitions must behave the same way, 
+        with respect to the region:
+        \begin{itemize}
+            \item $P_1$: \(B\) enters, nothing leaves;
+            \item $P_2$: \(C\) enters, nothing leaves;
+            \item $P_3$: \(A\) enters, \(D\) exits;
+            \item $P_4$: \(A\) enters, \(B\) exits. Note that for this region, we have to get a little creative.
+            Since the simplest region that can come to mind is not valid as the top and bottom \(D\) transition enter, while the two middle \(D\) transitions leave.
+            We can however create a region where \(A\) enters, and \(B\) exit by going around the \(D\) transitions, including in the region the two
+            terminal nodes at the top and bottom.
+            \item $P_5$: \(A\) enters, \(C\) exits. Similarly, also for this region we have to include the two nodes in the top half of the transition system.
+        \end{itemize}
+    \end{itemize}
+    \item Finally, we create a place for each region and connect them to the transitions according to the entering and leaving activities.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{../images/exercises/proc_discovery/region_miner-4_2.png}
+        \caption{Petri Net Discovered using the Region Based Miner}
+    \end{figure}
+\end{enumerate}
 
 \subsection{Inductive Miner}
 \begin{exercise}{1}
