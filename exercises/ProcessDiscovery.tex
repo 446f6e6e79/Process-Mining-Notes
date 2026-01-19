@@ -189,9 +189,42 @@ Consider the following event log:
 \[L = [\langle a,b,d \rangle^{100}, \langle a,c,b,d \rangle^{80}, \langle a,b,c,d \rangle^{2}, \langle a,c,d \rangle^{40}, \langle a,d \rangle^{1}]\]
 Use the Alpha Miner algorithm to discover a Petri net from the event log.
 \end{exercise}
-\begin{comment}
-    #TODO: add solution
-\end{comment}
+\begin{itemize}
+    \item First, we compute the footprint matrix:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{c|cccc}
+            & A & B & C & D \\
+            \hline
+            A & $\#$ & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ \\
+            B &  & $\#$ & $||$ & $\rightarrow$ \\
+            C &  &  & $\#$ & $\rightarrow$ \\
+            D &  &  &  & $\#$ \\
+        \end{tabular}
+        \caption{Footprint Matrix for the Event Log \(L\)}
+    \end{table}
+    \item Next, we identify the sets:
+    \[T_L = \{a,b,c,d\}\]
+    \[T_I = \{a\}\]
+    \[T_O = \{d\}\]
+    \item We can then identify the maximal pairs:
+    \[ 
+        \{
+        (\{a\}, \{b\}),\\
+        (\{a\}, \{c\}),\\
+        (\{a\}, \{d\}),\\
+        (\{b\}, \{d\}),\\
+        (\{c\}, \{d\})
+        \}
+    \]
+    No bigger sets can be formed.
+    \item Finally, we can construct the Workflow net:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{../images/exercises/proc_discovery/alpha_miner-4.png}
+        \caption{Petri Net Discovered using the Alpha Miner}
+    \end{figure}
+\end{itemize}
 
 
 \subsection{Heuristic Miner}
