@@ -291,3 +291,22 @@ If, instead, the insurance is valid, an assessment is performed and,
 in case of positive outcome the financial office is notified. Both in
 case of positive and negative outcome, the customer is notified.
 \end{exercise}
+The proposed solution is as follows:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../images/exercises/bpmn/bpmn-10.png}
+    \caption{Solution for Exercise 10}
+\end{figure}
+The important aspects of this solution are:
+\begin{itemize}
+    \item Part of the process is included in a sub-process. This allows to generate the exception for invalid insurance in a clean way.
+    In particular:
+    \begin{itemize}
+        \item When the insurance is invalid, the sub-process generates and internal boundary error event;
+        \item It is caught by an error event handler attached to the sub-process, which leads to the sending of a letter to the customer;
+        \item This way, any ongoing activity in the sub-process are cancelled automatically, as requested;
+        \item We use a abort end event in the error handler to signal the termination of the process instance.
+    \end{itemize}
+    \item Since the check insurance activity is common to both simple and complex claims, we can use an OR SPLIT gateway to model this;
+    \item Also for the customer notification, which is common to both positive and negative outcomes, we can place it after the end of the sub-process.
+\end{itemize}
