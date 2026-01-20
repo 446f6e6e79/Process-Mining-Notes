@@ -546,8 +546,8 @@ use the Inductive Miner algorithm to discover a process model from the event log
     \langle b,c,e,f,c,b \rangle,
     \langle c,b,e,f,b,c,e,f,c,b \rangle 
     \]
-    Analyzing the log, we can see that is probable to have a parallel cut between \(b,c\) and \(e,f\). 
-    All the other cuts are not possible. So, we apply the parallel cut, obtaining the following subgraphs:
+    Analyzing the log, we can see that is probable to have a redo loop between \(b,c\) and \(e,f\).
+    Also, all the other cuts are not possible. We can therefore apply a parallel cut, obtaining two subgraphs:
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.25\textwidth]{../images/exercises/proc_discovery/inductive_miner-1_3.png}
